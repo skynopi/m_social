@@ -1,0 +1,47 @@
+
+
+#catebody {margin:0 0 30px 0;padding:0 0 30px 0;}
+#category {float:left;width:220px;padding:0 0 0 0;}
+#category .title {height:19px;background:url('./image/bg_top.gif') left no-repeat #dfdfdf;background-position:4px 3px;padding:6px 0 0 23px;}
+#category .title .c1 {width:63px;height:18px;position:relative;top:-5px;}
+#category .title .c2 {width:63px;height:18px;position:relative;top:-5px;}
+#category .title img {position:relative;top:-2px;}
+
+#category .tree {margin:0;padding:10px 0 10px 0;}
+#category .tree ul {margin:0;padding:0;}
+#category .tree li {width:194px;cursor:move;list-style-type:none;background:url('../../../../../_core/image/_public/ico_folder_01.gif') left no-repeat;background-position:5px 5px;padding:3px 0 5px 24px;border:transparent solid 1px;_border:#ffffff solid 1px;letter-spacing:-1px;}
+#category .tree li:hover {border:#ebebeb solid 1px;background:url('../../../../../_core/image/_public/ico_folder_01.gif') left no-repeat #f9f9f9;background-position:5px 5px;}
+#category .tree .usecat {background:url('../../../../../_core/image/_public/ico_folder_02.gif') left no-repeat;background-position:5px 5px;}
+#category .tree .usecat:hover {background:url('../../../../../_core/image/_public/ico_folder_02.gif') left no-repeat #f9f9f9;background-position:5px 5px;}
+#category .tree input {display:none;}
+#category .tree .name {position:relative;top:2px;color:#111;padding:2px 0 0 0;}
+#category .tree .id {font:normal 11px arial;color:#999;padding:0 0 0 2px;}
+#category .tree .id:hover {}
+#category .tree .name:hover {color:#AECD63;}
+#category .tree .on {background:#AECD63;color:#ffffff;padding:2px;}
+#category .tree .on:hover {color:#ffffff;}
+#category .none {height:15px;margin:15px 0 0 0;padding:3px 0 0 25px;background:url('../../../../../_core/image/_public/ico_notice.gif') left no-repeat;background-position:4px 2px;font-family:dotum;font-size:13px;color:#c0c0c0;}
+
+
+#catinfo {margin-left:220px;padding:0 0 0 20px;}
+#catinfo .title {background:#dfdfdf;height:25px;}
+#catinfo .title .xleft {float:left;padding:6px 0 0 23px;font-weight:bold;}
+#catinfo .title .xright {float:right;padding:7px 7px 0 0;}
+#catinfo .title .xright a {font:normal 11px dotum;color:#888;}
+
+#catinfo .td1 {padding:14px 0 5px 15px;width:150px;vertical-align:top;}
+#catinfo .td2 {padding:10px 0 5px 0;color:#666666;}
+#catinfo .td2 .sname {width:174px;}
+#catinfo .td2 .sname1 {width:307px;}
+#catinfo .td2 .sname2 {width:82px;}
+#catinfo .td2 .select1 {width:180px;letter-spacing:-1px;}
+#catinfo .td2 .guide {font-size:11px;font-family:dotum;color:#555;line-height:150%;padding:10px 0 0 0;}
+#catinfo .td2 .dn {margin-bottom:-5px;}
+#catinfo .td2 .dm {position:relative;top:2px;padding:5px;margin:0 3px 0 0;border:#dfdfdf solid 1px;background:#f9f9f9;cursor:pointer;}
+#catinfo .td2 .add {height:40px;}
+#catinfo .td2 textarea {padding:5px;margin:0;width:330px;height:100px;overflow-x:hidden;overflow-y:auto;line-height:150%;color:#000000;font-family:Courier new, arial, dotum;font-size:9pt;text-align:left;}
+#catinfo .sfont1 {font:normal 11px dotum;color:#c0c0c0;}
+
+#catinfo .notice {padding:15px 0 10px 15px;margin:0 0 20px 0;font-size:11px;font-family:dotum;color:#02B6D6;border-bottom:#dfdfdf dashed 1px;line-height:150%;}
+
+#catinfo .submitbox {margin:20px 0 20px 0;padding:15px 0 0 107px;border-top:#dfdfdf dashed 1px;}

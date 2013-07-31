@@ -1,0 +1,1 @@
+[RESULT:<?php echo $g['mysns'][$n]?>:RESULT]

@@ -1,0 +1,7 @@
+#infobox {}
+#infobox h2 {font-size:14px;font-family:dotum;font-weight:bold;border-bottom:#efefef solid 1px;padding:10px 0 10px 0;margin:0 0 20px 0;letter-spacing:-1px;}
+#infobox table {margin:0 0 20px 0;}
+#infobox td {padding:5px 0 5px 0;}
+#infobox .td1 {padding-left:20px;width:80px;}
+#infobox .td2 {padding-left:10px;color:#999;}
+#infobox .td2 a {text-decoration:underline;color:#0000ff;}
