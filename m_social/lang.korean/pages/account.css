@@ -1,0 +1,54 @@
+
+
+#socialaccount {padding:15px;}
+#socialaccount .tops {padding:15px 0 15px 4px;border-bottom:#BFBFBF solid 1px;color:#c0c0c0;}
+#socialaccount .tops .xl {float:left;width:450px;}
+#socialaccount .tops .xr {float:right;width:150px;height:12px;text-align:right;}
+#socialaccount .tops .xr .pos {position:relative;top:-5px;}
+#socialaccount .configtbl {width:100%;border-spacing:0px;border-collapse:collapse;margin:20px 0 20px 0;}
+#socialaccount .configtbl td {border-bottom:#ebebeb solid 1px;padding:13px 0 13px 0;}
+#socialaccount .configtbl .td1 {width:100px;text-align:right;padding-right:13px;color:#666666;font-weight:bold;font-size:11px;vertical-align:top;padding-top:17px;}
+#socialaccount .configtbl .td2 {}
+#socialaccount .configtbl .td2 input,#socialaccount .configtbl .td2 select {font-size:12px;font-family:dotum;height:18px;vertical-align:middle;}
+#socialaccount .configtbl .td2 div {font-size:11px;font-family:dotum;color:#999;line-height:150%;padding-top:5px;}
+#socialaccount .configtbl .td2 div label {display:inline-block;width:80px;height:20px;}
+#socialaccount .configtbl .td2 .hmsg {font-weight:bold;color:#ff0000;}
+#socialaccount .configtbl .td2 .tel {width:30px;}
+#socialaccount .configtbl .td2 .snsx {display:inline-block;width:60px;text-align:center;margin:0 20px 0 0;vertical-align:top;}
+#socialaccount .configtbl .td2 .snsx span {display:block;font-weight:bold;color:#555555;padding:7px 0 13px 0;}
+#socialaccount .configtbl .td2 textarea {padding:3px;line-height:140%;font-size:12px;font-family:dotum;overflow:auto;}
+#socialaccount .configtbl .td3 {}
+#socialaccount .configtbl .td4 {line-height:150%;}
+#socialaccount .submit {padding:20px 0 20px 112px;}
+#socialaccount .submit input {padding:0 10px 0 10px;height:22px;}
+
+#socialaccount .mypicbox {padding:40px 0 20px 0;}
+#socialaccount .mypicbox .mpic {float:left;width:180px;}
+#socialaccount .mypicbox .mregis {float:left;width:400px;margin-left:20px;}
+
+#socialaccount .mypicbox .mregis .guide {padding:0 0 20px 0;color:#1C5B8C;font-family:dotum;line-height:150%;}
+#socialaccount .mypicbox .mregis .guide a {text-decoration:underline;font-size:11px;font-family:dotum;color:#093877;}
+
+#socialaccount .mypicbox .mregis .upload {padding:50px 0 0 0;border-top:#dfdfdf dashed 1px;}
+#socialaccount .mypicbox .mregis .upload span {display:block;padding-top:10px;font-size:11px;font-family:dotum;color:#666;letter-spacing:-1px;}
+#socialaccount .mypicbox .mregis .upload .upfile {height:21px;border:#c0c0c0 solid 1px;background:#ffffff;}
+
+#socialaccount .snsaccount {padding:30px 0 20px 0;}
+#socialaccount .snsaccount .snsx {float:left;display:block;width:60px;text-align:center;margin:0 20px 0 0;vertical-align:top;}
+#socialaccount .snsaccount .snsx span {display:block;font-weight:bold;color:#555555;padding:7px 0 13px 0;}
+#socialaccount .snsaccount .none {border-top:#BFBFBF solid 1px;color:#999;margin:30px 0 0 0;padding:20px 0 30px 0;}
+#socialaccount .snsaccount .bicon {margin-bottom:5px;}
+#socialaccount .tline {border-top:#BFBFBF solid 1px;}
+
+#socialaccount .followbox {}
+#socialaccount .followbox .fbox {border-bottom:#E9E9E9 solid 1px;padding:10px 0 10px 0;}
+#socialaccount .followbox .gx1 {padding-top:20px;}
+#socialaccount .followbox .fbox .fpic {float:left;width:50px;margin-right:10px;}
+#socialaccount .followbox .fbox .fname {float:left;width:475px;}
+#socialaccount .followbox .fbox .fname .n {display:block;font-weight:bold;color:#38599C;}
+
+#socialaccount .followbox .fbox .fname .c {display:block;padding-top:5px;line-height:150%;color:#656565;font-size:11px;font-family:dotum;letter-spacing:-1px;}
+#socialaccount .followbox .fbox .fname .btnbox {padding-top:5px}
+#socialaccount .followbox .fbox .fname .btnbox .btnGray01 {width:90px;float:left;margin-right:5px;}
+#socialaccount .followbox .pagebox01 {text-align:center;padding:20px 0 20px 0;}
+#socialaccount .followbox .none {border-bottom:#BFBFBF solid 1px;height:40px;text-align:center;color:#c0c0c0;padding-top:30px;}
