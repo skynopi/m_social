@@ -34,7 +34,7 @@
 #socialaccount .mypicbox .mregis .upload .upfile {height:21px;border:#c0c0c0 solid 1px;background:#ffffff;}
 
 #socialaccount .snsaccount {padding:30px 0 20px 0;}
-#socialaccount .snsaccount .snsx {float:left;display:block;width:60px;text-align:center;margin:0 20px 0 0;vertical-align:top;}
+#socialaccount .snsaccount .snsx {float:left;display:block;width:60px;text-align:center;margin:0 20px 20px 0;vertical-align:top;}
 #socialaccount .snsaccount .snsx span {display:block;font-weight:bold;color:#555555;padding:7px 0 13px 0;}
 #socialaccount .snsaccount .none {border-top:#BFBFBF solid 1px;color:#999;margin:30px 0 0 0;padding:20px 0 30px 0;}
 #socialaccount .snsaccount .bicon {margin-bottom:5px;}

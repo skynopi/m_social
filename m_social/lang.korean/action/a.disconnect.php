@@ -4,7 +4,7 @@ if(!defined('__KIMS__')) exit;
 if (!$my['uid']) getLink('','','정상적인 접근이 아닙니다.','');
 
 $_rst = '';
-$_set = array('t','f','m','y','','');
+$_set = array('t','f','m','y','r','g','instagram','tumblr','linkedin','ms','yahoo','xing','surveymonkey','stocktwits','rightsignature','fitbit','eventful','dropbox','disqus','box','bitbucket','github');
 $_cnt = count($_set);
 
 if ($delete == 'Y')
@@ -20,11 +20,11 @@ if ($delete == 'Y')
 		$_rst .= ($type==$_set[$i]?'':$g['mysns'][$i]).'|';
 	}
 	getDbUpdate($table['s_mbrdata'],"sns='".$_rst."'",'memberuid='.$my['uid']);
-	getDbUpdate($table['s_mbrsns'],'s'.$type."=''",'memberuid='.$my['uid']);
-	$R=getDbData($table['s_mbrsns'],'memberuid='.$my['uid'],'*');
-	if (!$R['st']&&!$R['sf']&&!$R['sm']&&!$R['sy'])
+	getDbUpdate($table[$m.'mbrsns'],'s'.$type."=''",'memberuid='.$my['uid']);
+	$R=getDbData($table[$m.'mbrsns'],'memberuid='.$my['uid'],'*');
+	if (!$R['st']&&!$R['sf']&&!$R['sm']&&!$R['sy']&&!$R['sr']&&!$R['sg'])
 	{
-		getDbDelete($table['s_mbrsns'],'memberuid='.$my['uid']);
+		getDbDelete($table[$m.'mbrsns'],'memberuid='.$my['uid']);
 	}
 }
 else {

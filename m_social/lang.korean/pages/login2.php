@@ -1,6 +1,6 @@
 <?php 
 if ($my['uid']) getLink('reload','parent.','','');
-include_once $g['path_module'].'social/var/var.php';
+include_once $g['path_module'].'m_social/var/'.$s.'.var.php';
 ?>
 <div id="socialaccount">
 

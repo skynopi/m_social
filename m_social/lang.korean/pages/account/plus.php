@@ -10,7 +10,7 @@
 
 <?php 
 if($_SESSION['plussns']):
-$PM=getDbData($table['s_mbrsns'],'memberuid='.$_SESSION['plussns'],'*'); 
+$PM=getDbData($table[$m.'mbrsns'],'memberuid='.$_SESSION['plussns'],'*'); 
 ?>
 <table class="configtbl">
 <tr>
@@ -25,7 +25,7 @@ $PM=getDbData($table['s_mbrsns'],'memberuid='.$_SESSION['plussns'],'*');
 <td class="td2">
 	<br />
 	<?php foreach($g['snskor'] as $_key => $_val):?>
-	<?php if(!$PM[$_key])continue?>
+	<?php if(!$PM['s'.$_key])continue?>
 	<div class="snsx">
 	<img src="<?php echo $g['img_module_skin']?>/sns_<?php echo $_key?>.gif" alt="" title="<?php echo $_val?>" />
 	<span><?php echo $_val?></span>
@@ -48,7 +48,6 @@ $PM=getDbData($table['s_mbrsns'],'memberuid='.$_SESSION['plussns'],'*');
 <td colspan="3" class="td4">
 <span class="b">혹시, 여러개의 계정을 가지고 계시나요?</span><br /><br />
 
-<?php print_r($my);?>
 소셜계정을 이용해서 로그인을 하신 경우 SNS마다 독립된 계정이 생성될 수 있습니다.<br />
 여러개의 계정을 가지고 계시다면 사이트계정으로 통합해 주세요.<br />
 계정을 통합하면 모든 소셜계정과 사이트계정이 하나로 연결됩니다.<br /><br />

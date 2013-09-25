@@ -1,6 +1,7 @@
 <?php
 if(!defined('__KIMS__')) exit;
 
+
 if (!$my['uid'])
 {
 	getLink('','','정상적인 접근이 아닙니다.','');
@@ -18,8 +19,8 @@ if ($act == 'sns')
 		if ($cync == 1)
 		{
 			$_mysnsdat=explode(',',$g['mysns'][0]);
-			include_once $g['path_module'].'social/var/var.php';
-			require_once $g['path_module'].'social/oauth/twitteroauth/twitteroauth.php';
+			include_once $g['path_module'].'m_social/var/'.$s.'.var.php';			
+			require_once $g['path_module'].'m_social/oauth/twitteroauth/twitteroauth.php';
 			$TC = new TwitterOAuth($d['social']['key_t'], $d['social']['secret_t'],$_mysnsdat[2],$_mysnsdat[3]);
 			$TR = $TC->post('account/update_profile',array('name'=>$name,'description'=>$description));
 		}
@@ -56,16 +57,7 @@ if ($act == 'sns')
 	if ($stype == 'f')
 	{
 		if ($cync == 1)
-		{
-			/*
-			include_once $g['path_module'].'social/var/var.php';
-			require_once $g['path_module'].'social/oauth/facebook/src/facebook.php';
-			$FC = new Facebook(array('appId'=>$d['social']['key_f'],'secret'=>$d['social']['secret_f'],'cookie'=>true));
-			$FUID = $FC->getUser();
-			
-			$FR1 = $FC->api(array('method'=>'fql.query','query'=>"update profile set name='".$name."' where id=".$FUID));
-			$FC->api('/me/feed','POST',array('name'=>$name));
-			*/
+		{			
 		}
 		else {
 			include_once $g['path_core'].'function/rss.func.php';
@@ -124,13 +116,78 @@ if ($act == 'sns')
 	{
 		if ($cync == 1)
 		{
-			/*
-			$_mysnsdat=explode(',',$g['mysns'][3]);
-			include_once $g['path_module'].'social/var/var.php';
-			require_once $g['path_module'].'social/oauth/twitteroauth/yozm.php';
-			$YC = new YozmOAuth($d['social']['key_y'], $d['social']['secret_y'],$_mysnsdat[2],$_mysnsdat[3]);
-			$YR = $YC->post('account/update_profile',array('name'=>$name,'description'=>$description));
-			*/
+			
+		}
+		else {
+			include_once $g['path_core'].'function/rss.func.php';
+			$photost = '';
+			$picdata = getUrlData($photo,10);
+			if ($picdata)
+			{
+				$fp = fopen($g['path_var'].'simbol/'.$my['id'].'.jpg','w');
+				fwrite($fp,$picdata);
+				fclose($fp);
+				ResizeWidthHeight($g['path_var'].'simbol/'.$my['id'].'.jpg',$g['path_var'].'simbol/'.$my['id'].'.jpg',50,50);
+				@chmod($g['path_var'].'simbol/'.$my['id'].'.jpg');
+				$photost = ",photo='".$my['id'].".jpg'";
+			}
+			$picdata = getUrlData($photo_big,10);
+			if ($picdata)
+			{
+				$fp = fopen($g['path_var'].'simbol/180.'.$my['id'].'.jpg','w');
+				fwrite($fp,$picdata);
+				fclose($fp);
+				ResizeWidth($g['path_var'].'simbol/180.'.$my['id'].'.jpg',$g['path_var'].'simbol/180.'.$my['id'].'.jpg',180);
+				@chmod($g['path_var'].'simbol/180.'.$my['id'].'.jpg');
+				$photost = ",photo='".$my['id'].".jpg'";
+			}
+
+			$_QVAL = "name='$name'".$photost;
+			getDbUpdate($table['s_mbrdata'],$_QVAL,'memberuid='.$my['uid']);
+
+		}
+	}
+
+	if ($stype == 'r')
+	{
+		if ($cync == 1)
+		{
+		}
+		else {
+			include_once $g['path_core'].'function/rss.func.php';
+			$photost = '';
+			$picdata = getUrlData($photo,10);
+			if ($picdata)
+			{
+				$fp = fopen($g['path_var'].'simbol/'.$my['id'].'.jpg','w');
+				fwrite($fp,$picdata);
+				fclose($fp);
+				ResizeWidthHeight($g['path_var'].'simbol/'.$my['id'].'.jpg',$g['path_var'].'simbol/'.$my['id'].'.jpg',50,50);
+				@chmod($g['path_var'].'simbol/'.$my['id'].'.jpg');
+				$photost = ",photo='".$my['id'].".jpg'";
+			}
+			$picdata = getUrlData($photo_big,10);
+			if ($picdata)
+			{
+				$fp = fopen($g['path_var'].'simbol/180.'.$my['id'].'.jpg','w');
+				fwrite($fp,$picdata);
+				fclose($fp);
+				ResizeWidth($g['path_var'].'simbol/180.'.$my['id'].'.jpg',$g['path_var'].'simbol/180.'.$my['id'].'.jpg',180);
+				@chmod($g['path_var'].'simbol/180.'.$my['id'].'.jpg');
+				$photost = ",photo='".$my['id'].".jpg'";
+			}
+
+			$_QVAL = "name='$name'".$photost;
+			getDbUpdate($table['s_mbrdata'],$_QVAL,'memberuid='.$my['uid']);
+
+		}
+	}
+
+
+	if ($stype == 'g')
+	{
+		if ($cync == 1)
+		{			
 		}
 		else {
 			include_once $g['path_core'].'function/rss.func.php';
@@ -207,8 +264,8 @@ if ($act == 'plus')
 			getLink('reload','parent.','취소되었습니다.','');
 		}
 		$M1 = getDbData($table['s_mbrdata'],'memberuid='.$_SESSION['plussns'],'*');
-		$BYSNS = getDbData($table['s_mbrsns'],'memberuid='.$_SESSION['plussns'],'*');
-		$MYSNS = getDbData($table['s_mbrsns'],'memberuid='.$my['uid'],'*');
+		$BYSNS = getDbData($table[$m.'mbrsns'],'memberuid='.$_SESSION['plussns'],'*');
+		$MYSNS = getDbData($table[$m.'mbrsns'],'memberuid='.$my['uid'],'*');
 		$_sns = explode('|',$M1['sns']);
 	}
 	else {
@@ -220,8 +277,8 @@ if ($act == 'plus')
 		$MX	= getUidData($table['s_mbrid'],$M1['memberuid']);
 		if($MX['pw']!=md5($pw)) getLink('','','비밀번호가 일치하지 않습니다.','');
 
-		$BYSNS = getDbData($table['s_mbrsns'],'memberuid='.$M1['memberuid'],'*');
-		$MYSNS = getDbData($table['s_mbrsns'],'memberuid='.$my['uid'],'*');
+		$BYSNS = getDbData($table[$m.'mbrsns'],'memberuid='.$M1['memberuid'],'*');
+		$MYSNS = getDbData($table[$m.'mbrsns'],'memberuid='.$my['uid'],'*');
 		$_sns = explode('|',$M1['sns']);
 	}
 
@@ -235,11 +292,13 @@ if ($act == 'plus')
 			if (!$MYSNS['sf'] && $BYSNS['sf']) { $updateSns .= ",sf='".$BYSNS['sf']."'"; $updateDat .= $_sns[1].'|';} else { $updateDat .= $g['mysns'][1].'|'; }
 			if (!$MYSNS['sm'] && $BYSNS['sm']) { $updateSns .= ",sm='".$BYSNS['sm']."'"; $updateDat .= $_sns[2].'|';} else { $updateDat .= $g['mysns'][2].'|'; }
 			if (!$MYSNS['sy'] && $BYSNS['sy']) { $updateSns .= ",sy='".$BYSNS['sy']."'"; $updateDat .= $_sns[3].'|';} else { $updateDat .= $g['mysns'][3].'|'; }
+			if (!$MYSNS['sr'] && $BYSNS['sr']) { $updateSns .= ",sr='".$BYSNS['sr']."'"; $updateDat .= $_sns[4].'|';} else { $updateDat .= $g['mysns'][4].'|'; }
+			if (!$MYSNS['sg'] && $BYSNS['sg']) { $updateSns .= ",sg'".$BYSNS['sg']."'"; $updateDat .= $_sns[5].'|';} else { $updateDat .= $g['mysns'][5].'|'; }
 
 			if ($updateSns)
 			{
 				getDbUpdate($table['s_mbrdata'],"sns='".$updateDat."'",'memberuid='.$my['uid']);
-				getDbUpdate($table['s_mbrsns'],substr($updateSns,1,strlen($updateSns)),'memberuid='.$my['uid']);
+				getDbUpdate($table[$m.'mbrsns'],substr($updateSns,1,strlen($updateSns)),'memberuid='.$my['uid']);
 			}
 		}
 	}
@@ -253,11 +312,13 @@ if ($act == 'plus')
 			if (!$BYSNS['sf']) { $QKEY .= ',sf'; $QVAL .= ",'".$BYSNS['sf']."'"; $updateDat .= $_sns[1].'|'; } else { $updateDat .= '|'; }
 			if (!$BYSNS['sm']) { $QKEY .= ',sm'; $QVAL .= ",'".$BYSNS['sm']."'"; $updateDat .= $_sns[2].'|'; } else { $updateDat .= '|'; }
 			if (!$BYSNS['sy']) { $QKEY .= ',sy'; $QVAL .= ",'".$BYSNS['sy']."'"; $updateDat .= $_sns[3].'|'; } else { $updateDat .= '|'; }
+			if (!$BYSNS['sr']) { $QKEY .= ',sr'; $QVAL .= ",'".$BYSNS['sr']."'"; $updateDat .= $_sns[4].'|'; } else { $updateDat .= '|'; }
+			if (!$BYSNS['sg']) { $QKEY .= ',sg'; $QVAL .= ",'".$BYSNS['sg']."'"; $updateDat .= $_sns[5].'|'; } else { $updateDat .= '|'; }
 
 			if ($QKEY != 'memberuid')
 			{
 				getDbUpdate($table['s_mbrdata'],"sns='".$updateDat."'",'memberuid='.$my['uid']);
-				getDbInsert($table['s_mbrsns'],$QKEY,$QVAL);
+				getDbInsert($table[$m.'mbrsns'],$QKEY,$QVAL);
 			}
 		}
 	}
@@ -270,46 +331,11 @@ if ($act == 'plus')
 	getDbDelete($table['s_scrap'],'mbruid='.$M1['memberuid']);
 	getDbDelete($table['s_simbol'],'mbruid='.$M1['memberuid']);
 	getDbDelete($table['s_friend'],'my_mbruid='.$M1['memberuid'].' or by_mbruid='.$M1['memberuid']);
-	getDbDelete($table['s_mbrsns'],'memberuid='.$M1['memberuid']);
+	getDbDelete($table[$m.'mbrsns'],'memberuid='.$M1['memberuid']);
 	getDbUpdate($table['s_mbrlevel'],'num=num-1','uid='.$M1['level']);
 	getDbUpdate($table['s_mbrgroup'],'num=num-1','uid='.$M1['sosok']);
 
 	$_SESSION['plussns'] = '';
-
-	//엠블로그 개설
-	$b_members	= '';   
-	$d_last		= '';
-	$memberuid = $my['memberuid'];
-	$b_id = $my['id'];
-	$b_name = $my['nic'];
-	$d_regis = $my['d_regis'];
-
-	if(!getDbRows($table['mbloglist'],"mbruid=".$memberuid)) {
-		$Ugid = getDbCnt($table['mbloglist'],'max(gid)','') + 1;
-		$bQKEY = "gid,blogtype,mbruid,members,id,name,d_regis,d_last,num_w,num_c,num_o,num_m";
-		$bQVAL = "'$Ugid','1','$memberuid','$members','$b_id','$b_name','$d_regis','$d_last','0','0','0','0'";
-		getDbInsert($table['mbloglist'],$bQKEY,$bQVAL);
-
-		$fdset = array('layout','theme_pc','theme_mobile','iframe','snsconnect','vtype','recnum','vopen','editor','rlength');
-		$fdset2 = array('','_pc/m_blog','','Y','social/inc/sns_joint01.php','review','20','','default','200');
-
-		$gfile= $g['path_module'].'mblog/var/var.'.$memberuid.'.php';
-		$fp = fopen($gfile,'w');
-		fwrite($fp, "<?php\n");
-		$bi = 0;
-		foreach ($fdset as $val)
-		{
-			fwrite($fp, "\$d['blog']['".$val."'] = \"".$fdset2[$bi]."\";\n");
-			$bi++;
-		}
-		fwrite($fp, "?>");
-		fclose($fp);
-		@chmod($gfile,0707);
-	}
-	//엠블로그 개설 끝
-
-
-
 
 	getLink('reload','parent.',$my['email']?$my['email'].' 계정으로 통합되었습니다.':'계정이 통합되었습니다.','');
 }

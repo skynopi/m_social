@@ -27,6 +27,8 @@ $snsUrlset = array
 	'f' => 'http://facebook.com/profile.php?id=',
 	'm' => 'http://me2day.net/',
 	'y' => 'http://yozm.daum.net/',
+	'r' => 'http://flickr.com/',
+	'g' => 'plus.google.com/',
 );
 ?>
 
@@ -79,6 +81,8 @@ $snsUrlset = array
 		<option value="f"<?php if($provider=='f'):?> selected="selected"<?php endif?>>ㆍ페이스북</option>
 		<option value="m"<?php if($provider=='m'):?> selected="selected"<?php endif?>>ㆍ미투데이</option>
 		<option value="y"<?php if($provider=='y'):?> selected="selected"<?php endif?>>ㆍ요즘</option>
+		<option value="r"<?php if($provider=='r'):?> selected="selected"<?php endif?>>ㆍ플리커</option>
+		<option value="g"<?php if($provider=='g'):?> selected="selected"<?php endif?>>ㆍ구글</option>
 		</select>
 
 		
@@ -159,7 +163,7 @@ $snsUrlset = array
 		<?php echo $R[$_HS['nametype']]?>
 		<?php endif?>
 	</td>
-	<td class="name"><a href="<?php echo $R['targeturl']?>" target="_blank"><img src="<?php echo $g['img_core']?>/_public/sns_<?php echo $R['provider']?>0.gif" alt="" /></a></td>
+	<td class="name"><a href="<?php echo $R['targeturl']?>" target="_blank"><img src="<?php echo $g['path_module'].$module?>/image/sns_<?php echo $R['provider']?>0.gif" alt="" /></a></td>
 	<td><a href="<?php echo $snsUrlset[$R['provider']].$R['snsid']?>" target="_blank"><?php echo $R['snsid']?></a></td>
 	<td><?php echo getDateFormat($R['d_regis'],'Y.m.d H:i')?></td>
 	<td></td>

@@ -1,4 +1,4 @@
-<?php include_once $g['path_module'].'social/var/var.php'?>
+<?php include_once $g['path_module'].$m.'/var/'.$s.'.var.php'?>
 <div class="snsaccount">
 	
 	<form name="procForm" action="<?php echo $g['s']?>/" method="post" onsubmit="return saveCheck(this);">
@@ -34,135 +34,169 @@
 	<?php $i++;endforeach?>
 	<div class="clear"></div>
 
-	<?php if($stype):?>
+	<?php 
+	if($stype):
 
-	<?php if($stype == 't'):?>
-	<?php $_mysnsdat=explode(',',$g['mysns'][0])?>
-	<?php if($_mysnsdat[1]):?>
-	<?php require_once $g['path_module'].'social/oauth/twitteroauth/twitteroauth.php'?>
-	<?php $TC = new TwitterOAuth($d['social']['key_t'], $d['social']['secret_t'],$_mysnsdat[2],$_mysnsdat[3])?>
-	<?php $TR = $TC->get('account/verify_credentials')?>
+	if($stype == 't'):
+		$_mysnsdat=explode(',',$g['mysns'][0]);
 
-	<table class="configtbl tline">
-	<tr>
-	<td class="td1">주소</td>
-	<td class="td2">
-		<a href="http://www.twitter.com/<?php echo $TR->screen_name?>" target="_blank" class="u b">http://www.twitter.com/<?php echo $TR->screen_name?></a>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">프로필 이미지</td>
-	<td class="td2">
-		<img src="<?php echo $TR->profile_image_url?>" width="50" height="50" alt="" />
-		<input type="hidden" name="photo" value="<?php echo $TR->profile_image_url?>" />
-		<input type="hidden" name="photo_big" value="<?php echo str_replace('_normal','_reasonably_small',$TR->profile_image_url)?>" />
-		<div>동기화 실행시 작은 이미지, 큰 이미지 모두 갱신됩니다.</div>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">수치정보</td>
-	<td class="td2">
-		트윗 <?php echo $TR->statuses_count?> , 
-		팔로잉 <?php echo $TR->friends_count?> , 
-		팔로워 <?php echo $TR->followers_count?> , 
-		리스트 <?php echo $TR->listed_count?>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">이름</td>
-	<td class="td2">
-		<input type="text" name="name" value="<?php echo $TR->name?>" />
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">자기소개</td>
-	<td class="td2">
-		<textarea cols="50" rows="4" name="description"><?php echo $TR->description?></textarea>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	</table>
-<!--
-	<div class="submit">
-	<input type="button" value="변경내용을 트위터에 적용" class="btnblue" onclick="snsCync(1);" />
-	<input type="button" value="킴스큐 계정과 동기화" class="btnblue" onclick="snsCync(2);" />
-	</div>
--->
-	<?php else:?>
-	<div class="none">트위터 연결정보가 없습니다.</div>
+		if($_mysnsdat[1]):
+			require_once($g['dir_module'].'oauth/http.php');
+			require_once($g['dir_module'].'oauth/oauth_client.php');
+
+			$client_t = new oauth_client_class;
+			$client_t->offline = true;
+			$client_t->debug = true;
+			$client_t->debug_http = true;
+			$client_t->server = 'Twitter';
+
+			$client_t->client_id = $d['social']['key_t'];
+			$client_t->client_secret = $d['social']['secret_t'];
+
+			$client_t->access_token = $_mysnsdat[2];
+			$client_t->access_token_secret = $_mysnsdat[3];
+
+			if(($success_t = $client_t->Initialize()))
+			{
+				$success_t = $client_t->CallAPI(
+					'https://api.twitter.com/1.1/account/verify_credentials.json', 
+					'GET', array(), array('FailOnAccessError'=>true), $user_t);
+				
+				$success_t = $client_t->Finalize($success_t);
+			}
+			if($client_t->exit)	exit;
+			
+			if($success_t) :
+		?>
+				<table class="configtbl tline">
+				<tr>
+				<td class="td1">주소</td>
+				<td class="td2">
+					<a href="http://www.twitter.com/<?php echo $user_t->screen_name?>" target="_blank" class="u b">http://www.twitter.com/<?php echo $user_t->screen_name?></a>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">프로필 이미지</td>
+				<td class="td2">
+					<img src="<?php echo $user_t->profile_image_url?>" width="50" height="50" alt="" />
+					<input type="hidden" name="photo" value="<?php echo $user_t->profile_image_url?>" />
+					<input type="hidden" name="photo_big" value="<?php echo str_replace('_normal','_reasonably_small',$user_t->profile_image_url)?>" />
+					<div>동기화 실행시 작은 이미지, 큰 이미지 모두 갱신됩니다.</div>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">수치정보</td>
+				<td class="td2">
+					트윗 <?php echo $user_t->statuses_count?> , 
+					팔로잉 <?php echo $user_t->friends_count?> , 
+					팔로워 <?php echo $user_t->followers_count?> , 
+					리스트 <?php echo $user_t->listed_count?>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">이름</td>
+				<td class="td2">
+					<input type="text" name="name" value="<?php echo $user_t->name?>" />
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">자기소개</td>
+				<td class="td2">
+					<textarea cols="50" rows="4" name="description"><?php echo $user_t->description?></textarea>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				</table>
+
+			<?php else:?>
+				<div class="none">트위터 연결정보가 없습니다.</div>
+			<?php endif?>
+		<?php endif?>
 	<?php endif?>
-	<?php endif?>
 
 
-	<?php if($stype == 'f'):?>
-	<?php $_mysnsdat=explode(',',$g['mysns'][1])?>
-	<?php if($_mysnsdat[1]):?>
-	<?php
-	require_once $g['path_module'].'social/oauth/facebook/src/facebook.php';
-	$FC = new Facebook(array('appId'=>$d['social']['key_f'],'secret'=>$d['social']['secret_f'],'cookie'=>true));
-	$FUID = $FC->getUser();
-	if (!$FUID) getLink($FC->getLoginUrl(),'','','');
+	<?php 
+	if($stype == 'f'):
+		$_mysnsdat=explode(',',$g['mysns'][1]);
 
-	$FR1 = $FC->api(array('method'=>'fql.query','query'=>'SELECT id,can_post,name,url,pic,pic_square,pic_small,pic_big,pic_crop,type,username from profile where id='.$FUID));
-	$FR2 = $FC->api(array('method'=>'fql.query','query'=>'SELECT username,first_name,middle_name,last_name,affiliations,profile_update_time,timezone,religion,birthday,birthday_date,sex,hometown_location,meeting_sex,meeting_for,relationship_status,significant_other_id,political,current_location,activities,interests,is_app_user,music,tv,movies,books,quotes,about_me,hs_info,education_history,work_history,notes_count,wall_count,status,has_added_app,online_presence,proxied_email,profile_url,email_hashes,pic_small_with_logo,pic_big_with_logo,pic_square_with_logo,pic_with_logo,allowed_restrictions,verified,profile_blurb,family,website,is_blocked,contact_email,email,third_party_id,name_format,video_upload_limits,games,is_minor,work,education,sports,favorite_athletes,favorite_teams,inspirational_people,languages,likes_count,friend_count,mutual_friend_count from user where uid='.$FUID));
-	?>
+		if($_mysnsdat[1]):
+			require_once($g['dir_module'].'oauth/http.php');
+			require_once($g['dir_module'].'oauth/oauth_client.php');
 
-	<table class="configtbl tline">
-	<tr>
-	<td class="td1">주소</td>
-	<td class="td2">
-		<a href="<?php echo $FR1[0]['url']?>" target="_blank" class="u b"><?php echo $FR1[0]['url']?></a>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">프로필 이미지</td>
-	<td class="td2">
-		<img src="<?php echo $FR1[0]['pic_square']?>" width="50" height="50" alt="" />
-		<input type="hidden" name="photo" value="<?php echo $FR1[0]['pic_square']?>" />
-		<input type="hidden" name="photo_big" value="<?php echo $FR1[0]['pic_big']?>" />
-		<div>동기화 실행시 작은 이미지,큰 이미지 모두 갱신됩니다.</div>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">수치정보</td>
-	<td class="td2">
-		담벼락 <?php echo $FR2[0]['wall_count']?> , 
-		팔로잉 <?php echo $FR2[0]['friend_count']?> , 
-		팔로워 <?php echo $FR2[0]['mutual_friend_count']?> , 
-		좋아요 <?php echo number_format($FR2[0]['likes_count'])?>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">이름</td>
-	<td class="td2">
-		<input type="text" name="name" value="<?php echo $FR1[0]['name']?>" />
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">자기소개</td>
-	<td class="td2">
-		<textarea cols="50" rows="4" name="description"><?php echo $FR2[0]['about_me']?></textarea>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	</table>
-<!--
-	<div class="submit">
-	<input type="button" value="킴스큐 계정과 동기화" class="btnblue" onclick="snsCync(2);" />
-	</div>
--->
+			$client_f = new oauth_client_class;
+			$client_f->server = 'Facebook';
 
-	<?php else:?>
-	<div class="none">페이스북 연결정보가 없습니다.</div>
-	<?php endif?>
+			$client_f->client_id = $d['social']['key_f'];
+			$client_f->client_secret = $d['social']['secret_f'];
+
+			$client_f->access_token = $_mysnsdat[2];
+			
+			if(($success_f = $client_f->Initialize()))
+			{
+				$success_f = $client_f->CallAPI(
+					'https://graph.facebook.com/me', 
+					'GET', array(), array('FailOnAccessError'=>true), $user_f);
+				
+				$success_f = $client_f->Finalize($success_f);
+			}
+			if($client_f->exit)	exit;
+			
+			if($success_f) :
+				$client_f->CallAPI('https://api.facebook.com/method/', 'POST', array('method'=>'fql.query','query'=>'SELECT pic_square,pic_big,wall_count,friend_count,mutual_friend_count,likes_count from user where uid='.$user_f->id,'format'=>'json'), array('FailOnAccessError'=>true,'application/json'), $user_f2);			
+			?>
+
+				<table class="configtbl tline">
+				<tr>
+				<td class="td1">주소</td>
+				<td class="td2">
+					<a href="<?php echo $user_f->link?>" target="_blank" class="u b"><?php echo $user_f->link?></a>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">프로필 이미지</td>
+				<td class="td2">
+					<img src="<?php echo $user_f2[0]->pic_square?>" width="50" height="50" alt="" />
+					<input type="hidden" name="photo" value="<?php echo $user_f2[0]->pic_square?>" />
+					<input type="hidden" name="photo_big" value="<?php echo $user_f2[0]->pic_big?>" />
+					<div>동기화 실행시 작은 이미지,큰 이미지 모두 갱신됩니다.</div>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">수치정보</td>
+				<td class="td2">
+					담벼락 <?php echo $user_f2[0]->wall_count?> , 
+					팔로잉 <?php echo $user_f2[0]->friend_count?> , 
+					팔로워 <?php echo $user_f2[0]->mutual_friend_count?> , 
+					좋아요 <?php echo number_format($user_f2[0]->likes_count)?>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">이름</td>
+				<td class="td2">
+					<input type="text" name="name" value="<?php echo $user_f->name?>" />
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">자기소개</td>
+				<td class="td2">
+					<textarea cols="50" rows="4" name="description"><?php echo $user_f->bio?></textarea>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				</table>
+
+			<?php else:?>
+				<div class="none">페이스북 연결정보가 없습니다.</div>
+			<?php endif?>
+		<?php endif?>
 	<?php endif?>
 
 
@@ -214,79 +248,216 @@
 	<td class="td3"></td>
 	</tr>
 	</table>
-<!--
-	<div class="submit">
-	<input type="button" value="킴스큐 계정과 동기화" class="btnblue" onclick="snsCync(2);" />
-	</div>
--->
-
 
 	<?php else:?>
 	<div class="none">미투데이 연결정보가 없습니다.</div>
 	<?php endif?>
 	<?php endif?>
 
+	
+	<?php 
+	if($stype == 'y'):
+		$_mysnsdat=explode(',',$g['mysns'][3]);
 
-	<?php if($stype == 'y'):?>
-	<?php $_mysnsdat=explode(',',$g['mysns'][3])?>
-	<?php if($_mysnsdat[1]):?>
-	<?php require_once $g['path_module'].'social/oauth/twitteroauth/yozm.php'?>
-	<?php $YC = new YozmOAuth($d['social']['key_y'], $d['social']['secret_y'],$_mysnsdat[2],$_mysnsdat[3])?>
-	<?php $YR = $YC->get('user/show', array())?>
+		if($_mysnsdat[1]):
+			require_once($g['dir_module'].'oauth/http.php');
+			require_once($g['dir_module'].'oauth/oauth_client.php');
 
-	<table class="configtbl tline">
-	<tr>
-	<td class="td1">주소</td>
-	<td class="td2">
-		<a href="http://yozm.daum.net/<?php echo $YR->user->url_name?>" target="_blank" class="u b">http://yozm.daum.net/<?php echo $YR->user->url_name?></a>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">프로필 이미지</td>
-	<td class="td2">
-		<img src="<?php echo $YR->user->profile_img_url?>" width="50" height="50" alt="" />
-		<input type="hidden" name="photo" value="<?php echo $YR->user->profile_img_url?>" />
-		<input type="hidden" name="photo_big" value="<?php echo $YR->user->profile_big_img_url?>" />
-		<div>동기화 실행시 작은 이미지,큰 이미지 모두 갱신됩니다.</div>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">수치정보</td>
-	<td class="td2">
-		포스트 <?php echo $YR->user->msg_cnt?> , 
-		친구 <?php echo $YR->user->following_cnt?> , 
-		인기 <?php echo $YR->user->follower_cnt?>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">이름</td>
-	<td class="td2">
-		<input type="text" name="name" value="<?php echo $YR->user->user_identity->real_name?$YR->user->user_identity->real_name:$YR->user->nickname?>" />
-	</td>
-	<td class="td3"></td>
-	</tr>
-	<tr>
-	<td class="td1">자기소개</td>
-	<td class="td2">
-		<textarea cols="50" rows="4" name="description"><?php echo $YR->user->user_info->introduce?></textarea>
-	</td>
-	<td class="td3"></td>
-	</tr>
-	</table>
+			$client_y = new oauth_client_class;
+			$client_y->offline = true;
+			$client_y->debug = false;
+			$client_y->debug_http = true;
+			$client_y->server = 'yozm';
 
-<!--
-	<div class="submit">
-	<input type="button" value="킴스큐 계정과 동기화" class="btnblue" onclick="snsCync(2);" />
-	</div>
--->
+			$client_y->client_id = $d['social']['key_y'];
+			$client_y->client_secret = $d['social']['secret_y'];
 
-	<?php else:?>
-	<div class="none">다음요즘 연결정보가 없습니다.</div>
+			$client_y->access_token = $_mysnsdat[2];
+			$client_y->access_token_secret = $_mysnsdat[3];
+			
+			if(($success_y = $client_y->Initialize()))
+			{
+				$success_y = $client_y->CallAPI(
+					'https://apis.daum.net/profile/show.json', 
+					'GET', array('format'=>'json'), array('FailOnAccessError'=>true), $user_y);
+				
+				$success_y = $client_y->Finalize($success_y);
+			}
+			if($client_y->exit)	exit;
+	
+			if($success_y) :
+				$user_y2 = json_decode($user_y); 
+			?>
+
+				<table class="configtbl tline">				
+				<tr>
+				<td class="td1">프로필 이미지</td>
+				<td class="td2">
+					<img src="<?php echo $user_y2->user->profile_image_url?>" width="50" height="50" alt="" />
+					<input type="hidden" name="photo" value="<?php echo $user_y2->user->profile_image_url?>" />
+					<input type="hidden" name="photo_big" value="<?php echo $user_y2->user->profile_big_image_url?>" />
+					<div>동기화 실행시 작은 이미지,큰 이미지 모두 갱신됩니다.</div>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				
+				<tr>
+				<td class="td1">이름</td>
+				<td class="td2">
+					<input type="text" name="name" value="<?php echo $user_y2->user->nickname?>" />
+				</td>
+				<td class="td3"></td>
+				</tr>
+				</table>
+				
+			<?php else:?>
+				<div class="none">다음 프로필 연결정보가 없습니다.</div>
+			<?php endif?>
+		<?php endif?>
 	<?php endif?>
+
+
+	<?php 
+	if($stype == 'r'):
+		$_mysnsdat=explode(',',$g['mysns'][4]);
+
+		if($_mysnsdat[1]):
+			require_once($g['dir_module'].'oauth/phpFlickr.php');
+
+			$f = new phpFlickr($d['social']['key_r'], $d['social']['secret_r']);
+
+			$f->setToken($_mysnsdat[2]);
+			$arr_user = $f->people_getInfo($_mysnsdat[3]);
+			
+			if($arr_user['id']) :
+				
+			?>
+
+				<table class="configtbl tline">
+				<tr>
+				<td class="td1">주소</td>
+				<td class="td2">
+					<a href="<?php echo $arr_user['photosurl']?>" target="_blank" class="u b"><?php echo $arr_user['photosurl']?></a>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">프로필 이미지</td>
+				<td class="td2">
+					<img src="<?php echo 'http://static.flickr.com/'.$arr_user['iconserver'].'/buddyicons/'.$arr_user['nsid'].'.jpg'?>" width="50" height="50" alt="" />
+					<input type="hidden" name="photo" value="<?php echo 'http://static.flickr.com/'.$arr_user['iconserver'].'/buddyicons/'.$arr_user['nsid'].'.jpg'?>" />
+					<input type="hidden" name="photo_big" value="<?php echo 'http://static.flickr.com/'.$arr_user['iconserver'].'/buddyicons/'.$arr_user['nsid'].'.jpg'?>" />
+					<div>동기화 실행시 작은 이미지,큰 이미지 모두 갱신됩니다.</div>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">수치정보</td>
+				<td class="td2">
+					전체 이미지 <?php echo $arr_user['photos']['count']?> 장
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">이름</td>
+				<td class="td2">
+					<input type="text" name="name" value="<?php echo $arr_user['username']?>" />
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">자기소개</td>
+				<td class="td2">
+					<textarea cols="50" rows="4" name="description"><?php echo $arr_user['description']?></textarea>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				</table>
+
+			<?php else:?>
+				<div class="none">플리커 연결정보가 없습니다.</div>
+			<?php endif?>
+		<?php endif?>
 	<?php endif?>
+
+
+	<?php 
+	if($stype == 'g'):
+		$_mysnsdat=explode(',',$g['mysns'][5]);
+
+		if($_mysnsdat[1]):
+			require_once($g['dir_module'].'oauth/http.php');
+			require_once($g['dir_module'].'oauth/oauth_client.php');
+
+			$client_g = new oauth_client_class;
+			$client_g->offline = true;
+			$client_g->debug = false;
+			$client_g->debug_http = true;
+			$client_g->server = 'Google';
+
+			$client_g->client_id = $d['social']['key_g'];
+			$client_g->client_secret = $d['social']['secret_g'];
+
+			$client_g->access_token = $_mysnsdat[2];
+			$client_g->refresh_token = $_mysnsdat[3];
+			$client_g->refresh_token = $_mysnsdat[5];
+			$client_g->access_token_expiry = $_mysnsdat[6];
+
+			if(($success_g = $client_g->Initialize()))
+			{
+				$success_g = $client_g->CallAPI(
+					'https://www.googleapis.com/oauth2/v1/userinfo',
+					'GET', array(), array('FailOnAccessError'=>true), $user_g);
+				
+				$success_g = $client_g->Finalize($success_g);
+			}
+			if($client_g->exit)	exit;
+
+			if($success_g) :				
+			?>
+
+				<table class="configtbl tline">
+				<tr>
+				<td class="td1">주소</td>
+				<td class="td2">
+					<a href="<?php echo $user_g->link?>" target="_blank" class="u b"><?php echo $user_g->link?></a>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">프로필 이미지</td>
+				<td class="td2">
+					<img src="<?php echo $user_g->picture?>" width="50" height="50" alt="" />
+					<input type="hidden" name="photo" value="<?php echo $user_g->picture?>" />
+					<input type="hidden" name="photo_big" value="<?php echo $user_g->picture?>" />
+					<div>동기화 실행시 작은 이미지,큰 이미지 모두 갱신됩니다.</div>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				
+				<tr>
+				<td class="td1">이름</td>
+				<td class="td2">
+					<input type="text" name="name" value="<?php echo $user_g->name?>" />
+				</td>
+				<td class="td3"></td>
+				</tr>
+				<tr>
+				<td class="td1">자기소개</td>
+				<td class="td2">
+					<textarea cols="50" rows="4" name="description"><?php //echo $user_g->bio?></textarea>
+				</td>
+				<td class="td3"></td>
+				</tr>
+				</table>
+			
+			<?php else:?>
+				<div class="none">구글 플러스 연결정보가 없습니다.</div>
+			<?php endif?>
+		<?php endif?>
+	<?php endif?>
+
+
 
 
 	<?php else:?>

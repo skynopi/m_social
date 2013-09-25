@@ -12,7 +12,7 @@ function snsCheck(key,use,conn)
 					return false;
 				}
 			}
-			frames.__iframe_for_action__.location.href = rooturl+'/?r='+raccount+'&m=social&a=disconnect&connect=Y&type='+key;
+			frames.__iframe_for_action__.location.href = rooturl+'/?r='+raccount+'&m=m_social&a=disconnect&connect=Y&type='+key;
 		}
 		else {
 			var w;
@@ -36,22 +36,30 @@ function snsCheck(key,use,conn)
 					w = 450;
 					h = 450;
 					break;
+				case 'r':
+					w = 900;
+					h = 600;
+					break;
+				case 'g':
+					w = 600;
+					h = 600;
+					break;
 			}
-			var url = rooturl+'/?r='+raccount+'&m=social&a=snscall_direct&type='+key;
-			window.open(url,'','width='+w+'px,height='+h+'px,statusbar=no,scrollbars=no,toolbar=no');
+			var url = rooturl+'/?r='+raccount+'&m=m_social&a=snscall_direct&type='+key;
+			window.open(url,'','width='+w+'px,height='+h+'px,statusbar=no,scrollbars=yes,toolbar=no');
 		}
 	}
 	else if (conn == 'delete')
 	{
 		if (confirm('정말로 연결을 끊으시겠습니까?   '))
 		{
-			frames.__iframe_for_action__.location.href = rooturl+'/?r='+raccount+'&m=social&a=disconnect&delete=Y&type='+key;
+			frames.__iframe_for_action__.location.href = rooturl+'/?r='+raccount+'&m=m_social&a=disconnect&delete=Y&type='+key;
 		}
 	}
 	else {
 		if (confirm('정말로 변경하시겠습니까?   '))
 		{
-			frames.__iframe_for_action__.location.href = rooturl+'/?r='+raccount+'&m=social&a=disconnect&type='+key;
+			frames.__iframe_for_action__.location.href = rooturl+'/?r='+raccount+'&m=m_social&a=disconnect&type='+key;
 		}
 	}
 }

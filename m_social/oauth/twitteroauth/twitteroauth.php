@@ -9,7 +9,7 @@
 /* Load OAuth lib. You can find it at http://oauth.net */
 
 //require_once('OAuth.php');
-$xoauthfile = !defined('__KIMS__') ? 'OAuth.php' : $g['path_module'].'social/oauth/twitteroauth/OAuth.php';
+$xoauthfile = !defined('__KIMS__') ? 'OAuth.php' : $g['path_module'].'m_social/oauth/twitteroauth/OAuth.php';
 require_once($xoauthfile);
 
 

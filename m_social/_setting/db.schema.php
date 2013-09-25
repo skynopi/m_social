@@ -1,38 +1,29 @@
 <?php
 if(!defined('__KIMS__')) exit;
 
-
-//SNS유저데이터
-$_tmp = db_query( "select count(*) from ".$table[$module.'user'], $DB_CONNECT );
+//SNS테이블
+$_tmp = db_query( "select count(*) from ".$table[$module.'mbrsns'], $DB_CONNECT );
 if ( !$_tmp ) {
 $_tmp = ("
 
-CREATE TABLE ".$table[$module.'user']." (
+CREATE TABLE ".$table[$module.'mbrsns']." (
 memberuid	INT				PRIMARY KEY		NOT NULL,
-provider	CHAR(1)			DEFAULT ''		NOT NULL,
-id_t		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_f		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_m		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_y		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_k		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_g		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_i		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_r		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_l		VARCHAR(50)		DEFAULT ''		NOT NULL,
-id_s		VARCHAR(50)		DEFAULT ''		NOT NULL,
-extra_t		TEXT			NOT NULL,
-extra_f		TEXT			NOT NULL,
-extra_m		TEXT			NOT NULL,
-extra_y		TEXT			NOT NULL,
-extra_k		TEXT			NOT NULL,
-extra_g		TEXT			NOT NULL,
-extra_i		TEXT			NOT NULL,
-extra_r		TEXT			NOT NULL,
-extra_l		TEXT			NOT NULL,
-extra_s		TEXT			NOT NULL) ENGINE=".$DB['type']." CHARSET=UTF8");                            
+st			VARCHAR(40)		DEFAULT ''		NOT NULL,
+sf			VARCHAR(40)		DEFAULT ''		NOT NULL,
+sm			VARCHAR(40)		DEFAULT ''		NOT NULL,
+sy			VARCHAR(40)		DEFAULT ''		NOT NULL,
+sr			VARCHAR(40)		DEFAULT ''		NOT NULL,
+sg			VARCHAR(40)		DEFAULT ''		NOT NULL,
+KEY st(st),
+KEY sf(sf),
+KEY sm(sm),
+KEY sy(sy),
+KEY sr(sr),
+KEY sg(sg)) ENGINE=".$DB['type']." CHARSET=UTF8");                            
 db_query($_tmp, $DB_CONNECT);
-db_query("OPTIMIZE TABLE ".$table[$module.'user'],$DB_CONNECT); 
+db_query("OPTIMIZE TABLE ".$table[$module.'mbrsns'],$DB_CONNECT); 
 }
+
 
 //SNS전송데이터
 $_tmp = db_query( "select count(*) from ".$table[$module.'data'], $DB_CONNECT );

@@ -4,7 +4,7 @@ if(!defined('__KIMS__')) exit;
 checkAdmin(0);
 
 
-$snsSet = array('t','f','m','y','b');
+$snsSet = array('t','f','m','y','r','g','b');
 if($uid){
 	$_tmpdfile = $g['dir_module'].'var/'.$uid.'.var.php';
 }else{

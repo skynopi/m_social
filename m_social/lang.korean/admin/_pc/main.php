@@ -92,26 +92,23 @@ if(is_file($is_file)){
 				<td class="td2 shift">
 					
 					<input type="checkbox" name="use_t" id="chk_t" value="1"<?php if($d['social']['use_t']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_t0.gif" alt="" /> <label for="chk_t">트위터</label>
-					<input type="checkbox" name="use_f" id="chk_f" value="1"<?php if($d['social']['use_f']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_f0.gif" alt="" /> <label for="chk_f">페이스북</label>
-					<input type="checkbox" name="use_m" id="chk_m" value="1"<?php if($d['social']['use_m']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_m0.gif" alt="" /> <label for="chk_m">미투데이</label>
-					<input type="checkbox" name="use_y" id="chk_y" value="1"<?php if($d['social']['use_y']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_y0.gif" alt="" /> <label for="chk_y">요즘</label>
+					<img src="<?php echo $g['path_module'].$module?>/image/sns_t0.gif" alt="" /> <label for="chk_t">트위터</label>
 
-					<input type="checkbox" name="use_k" id="chk_k" value="1"<?php if($d['social']['use_k']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_k0.gif" alt="" /> <label for="chk_k">플리커</label>
-					<input type="checkbox" name="use_g" id="chk_g" value="1"<?php if($d['social']['use_g']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_g0.gif" alt="" /> <label for="chk_g">구글</label>
-					<input type="checkbox" name="use_i" id="chk_i" value="1"<?php if($d['social']['use_i']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_i0.gif" alt="" /> <label for="chk_i">인스타그램</label>
+					<input type="checkbox" name="use_f" id="chk_f" value="1"<?php if($d['social']['use_f']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
+					<img src="<?php echo $g['path_module'].$module?>/image/sns_f0.gif" alt="" /> <label for="chk_f">페이스북</label>
+
+					<input type="checkbox" name="use_m" id="chk_m" value="1"<?php if($d['social']['use_m']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
+					<img src="<?php echo $g['path_module'].$module?>/image/sns_m0.gif" alt="" /> <label for="chk_m">미투데이</label>
+
+					<input type="checkbox" name="use_y" id="chk_y" value="1"<?php if($d['social']['use_y']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
+					<img src="<?php echo $g['path_module'].$module?>/image/sns_y0.gif" alt="" /> <label for="chk_y">요즘</label>
+
+
 					<input type="checkbox" name="use_r" id="chk_r" value="1"<?php if($d['social']['use_r']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_r0.gif" alt="" /> <label for="chk_r">템블러</label>
-					<input type="checkbox" name="use_l" id="chk_l" value="1"<?php if($d['social']['use_l']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_l0.gif" alt="" /> <label for="chk_l">링크드인</label>
-					<input type="checkbox" name="use_y" id="chk_s" value="1"<?php if($d['social']['use_s']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['img_module']?>/sns_s0.gif" alt="" /> <label for="chk_s">마이크로소프트</label>
+					<img src="<?php echo $g['path_module'].$module?>/image/sns_r0.gif" alt="" /> <label for="chk_r">플리커</label>
+
+					<input type="checkbox" name="use_g" id="chk_g" value="1"<?php if($d['social']['use_g']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
+					<img src="<?php echo $g['path_module'].$module?>/image/sns_g0.gif" alt="" /> <label for="chk_g">구글</label>
 
 				</td>
 			</tr>
@@ -130,27 +127,27 @@ if(is_file($is_file)){
 		<div id="snsdiv_t"<?php if(!$d['social']['use_t']):?> class="hide"<?php endif?>>
 		<table>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_t0.gif" alt="" /> Consumer Key</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_t0.gif" alt="" /> Consumer Key</td>
 				<td class="td2">
 					<input type="text" name="key_t" value="<?php echo $d['social']['key_t']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_t0.gif" alt="" /> Consumer Secret</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_t0.gif" alt="" /> Consumer Secret</td>
 				<td class="td2">
 					<input type="text" name="secret_t" value="<?php echo $d['social']['secret_t']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_t0.gif" alt="" /> Callback Url</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_t0.gif" alt="" /> Callback Url</td>
 				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&twitter=Y'?>
+					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&type=t'?>
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_t0.gif" alt="" /> APP 등록페이지</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_t0.gif" alt="" /> APP 등록페이지</td>
 				<td class="td2 b">
-					<a href="http://dev.twitter.com/apps" target="_blank">http://dev.twitter.com/apps</a>
+					<a href="https://dev.twitter.com/apps/new" target="_blank">https://dev.twitter.com/apps/new</a>
 				</td>
 			</tr>
 		</table>
@@ -159,27 +156,27 @@ if(is_file($is_file)){
 		<div id="snsdiv_f"<?php if(!$d['social']['use_f']):?> class="hide"<?php endif?>>
 		<table>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_f0.gif" alt="" /> API Key</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_f0.gif" alt="" /> API Key</td>
 				<td class="td2">
 					<input type="text" name="key_f" value="<?php echo $d['social']['key_f']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_f0.gif" alt="" /> Secret Code</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_f0.gif" alt="" /> Secret Code</td>
 				<td class="td2">
 					<input type="text" name="secret_f" value="<?php echo $d['social']['secret_f']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_f0.gif" alt="" /> Callback Url</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_f0.gif" alt="" /> Callback Url</td>
 				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&facebook=Y'?>
+					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&type=f'?>
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_f0.gif" alt="" /> APP 등록페이지</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_f0.gif" alt="" /> APP 등록페이지</td>
 				<td class="td2 b">
-					<a href="http://www.facebook.com/developers/createapp.php" target="_blank">http://www.facebook.com/developers/createapp.php</a>
+					<a href="https://developers.facebook.com/apps" target="_blank">https://developers.facebook.com/apps</a>
 				</td>
 			</tr>
 		</table>
@@ -188,19 +185,19 @@ if(is_file($is_file)){
 		<div id="snsdiv_m"<?php if(!$d['social']['use_m']):?> class="hide"<?php endif?>>
 		<table>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_m0.gif" alt="" /> API Key</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_m0.gif" alt="" /> API Key</td>
 				<td class="td2">
 					<input type="text" name="key_m" value="<?php echo $d['social']['key_m']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_m0.gif" alt="" /> Callback Url</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_m0.gif" alt="" /> Callback Url</td>
 				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&m2day=Y'?>
+					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&type=m'?>
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_m0.gif" alt="" /> APP 등록페이지</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_m0.gif" alt="" /> APP 등록페이지</td>
 				<td class="td2 b">
 					<a href="http://me2day.net/me2/app/get_appkey" target="_blank">http://me2day.net/me2/app/get_appkey</a>
 				</td>
@@ -211,55 +208,55 @@ if(is_file($is_file)){
 		<div id="snsdiv_y"<?php if(!$d['social']['use_y']):?> class="hide"<?php endif?>>
 		<table>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_y0.gif" alt="" /> Consumer Key</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_y0.gif" alt="" /> Consumer Key</td>
 				<td class="td2">
 					<input type="text" name="key_y" value="<?php echo $d['social']['key_y']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_y0.gif" alt="" /> Consumer Secret</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_y0.gif" alt="" /> Consumer Secret</td>
 				<td class="td2">
 					<input type="text" name="secret_y" value="<?php echo $d['social']['secret_y']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_y0.gif" alt="" /> Callback Url</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_y0.gif" alt="" /> Callback Url</td>
 				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&yozm=Y'?>
+					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&type=y'?>
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_y0.gif" alt="" /> APP 등록페이지</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_y0.gif" alt="" /> APP 등록페이지</td>
 				<td class="td2 b">
-					<a href="https://apis.daum.net/oauth/consumer/input" target="_blank">https://apis.daum.net/oauth/consumer/input</a>
+					<a href="https://dna.daum.net/myapi/authapi/new" target="_blank">https://dna.daum.net/myapi/authapi/new</a>
 				</td>
 			</tr>
 		</table>
 		</div>
 
-		++++
-		<div id="snsdiv_k"<?php if(!$d['social']['use_k']):?> class="hide"<?php endif?>>
+		
+		<div id="snsdiv_r"<?php if(!$d['social']['use_r']):?> class="hide"<?php endif?>>
 		<table>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_k0.gif" alt="" /> Consumer Key</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_r0.gif" alt="" /> Consumer Key</td>
 				<td class="td2">
-					<input type="text" name="key_k" value="<?php echo $d['social']['key_k']?>" size="40" class="input" />
+					<input type="text" name="key_r" value="<?php echo $d['social']['key_r']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_k0.gif" alt="" /> Consumer Secret</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_r0.gif" alt="" /> Consumer Secret</td>
 				<td class="td2">
-					<input type="text" name="secret_k" value="<?php echo $d['social']['secret_k']?>" size="40" class="input" />
+					<input type="text" name="secret_r" value="<?php echo $d['social']['secret_r']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_k0.gif" alt="" /> Callback Url</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_r0.gif" alt="" /> Callback Url</td>
 				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&flickr=Y'?>
+					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&type=r'?>
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_k0.gif" alt="" /> APP 등록페이지</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_r0.gif" alt="" /> APP 등록페이지</td>
 				<td class="td2 b">
 					<a href="http://www.flickr.com/services/apps/create/" target="_blank">http://www.flickr.com/services/apps/create/</a>
 				</td>
@@ -270,25 +267,25 @@ if(is_file($is_file)){
 		<div id="snsdiv_g"<?php if(!$d['social']['use_g']):?> class="hide"<?php endif?>>
 		<table>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_g0.gif" alt="" /> Consumer Key</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_g0.gif" alt="" /> Consumer Key</td>
 				<td class="td2">
 					<input type="text" name="key_g" value="<?php echo $d['social']['key_g']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_g0.gif" alt="" /> Consumer Secret</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_g0.gif" alt="" /> Consumer Secret</td>
 				<td class="td2">
 					<input type="text" name="secret_g" value="<?php echo $d['social']['secret_g']?>" size="40" class="input" />
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_g0.gif" alt="" /> Callback Url</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_g0.gif" alt="" /> Callback Url</td>
 				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&google=Y'?>
+					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&type=g'?>
 				</td>
 			</tr>
 			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_g0.gif" alt="" /> APP 등록페이지</td>
+				<td class="td1"><img src="<?php echo $g['path_module'].$module?>/image/sns_g0.gif" alt="" /> APP 등록페이지</td>
 				<td class="td2 b">
 					<a href="http://code.google.com/apis/console" target="_blank">http://code.google.com/apis/console</a>
 				</td>
@@ -296,121 +293,7 @@ if(is_file($is_file)){
 		</table>
 		</div>
 
-		<div id="snsdiv_i"<?php if(!$d['social']['use_i']):?> class="hide"<?php endif?>>
-		<table>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_i0.gif" alt="" /> Consumer Key</td>
-				<td class="td2">
-					<input type="text" name="key_i" value="<?php echo $d['social']['key_i']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_i0.gif" alt="" /> Consumer Secret</td>
-				<td class="td2">
-					<input type="text" name="secret_i" value="<?php echo $d['social']['secret_i']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_i0.gif" alt="" /> Callback Url</td>
-				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&insta=Y'?>
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_i0.gif" alt="" /> APP 등록페이지</td>
-				<td class="td2 b">
-					<a href="http://instagram.com/developer/register/" target="_blank">http://instagram.com/developer/register/</a>
-				</td>
-			</tr>
-		</table>
-		</div>
-
-		<div id="snsdiv_r"<?php if(!$d['social']['use_r']):?> class="hide"<?php endif?>>
-		<table>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_r0.gif" alt="" /> Consumer Key</td>
-				<td class="td2">
-					<input type="text" name="key_r" value="<?php echo $d['social']['key_r']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_r0.gif" alt="" /> Consumer Secret</td>
-				<td class="td2">
-					<input type="text" name="secret_r" value="<?php echo $d['social']['secret_r']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_r0.gif" alt="" /> Callback Url</td>
-				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&tumblr=Y'?>
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_r0.gif" alt="" /> APP 등록페이지</td>
-				<td class="td2 b">
-					<a href="http://www.tumblr.com/oauth/apps" target="_blank">http://www.tumblr.com/oauth/apps</a>
-				</td>
-			</tr>
-		</table>
-		</div>
-
-		<div id="snsdiv_l"<?php if(!$d['social']['use_l']):?> class="hide"<?php endif?>>
-		<table>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_l0.gif" alt="" /> Consumer Key</td>
-				<td class="td2">
-					<input type="text" name="key_l" value="<?php echo $d['social']['key_l']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_l0.gif" alt="" /> Consumer Secret</td>
-				<td class="td2">
-					<input type="text" name="secret_l" value="<?php echo $d['social']['secret_l']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_l0.gif" alt="" /> Callback Url</td>
-				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&linkedin=Y'?>
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_l0.gif" alt="" /> APP 등록페이지</td>
-				<td class="td2 b">
-					<a href="https://www.linkedin.com/secure/developer?newapp=" target="_blank">https://www.linkedin.com/secure/developer?newapp=</a>
-				</td>
-			</tr>
-		</table>
-		</div>
-
-		<div id="snsdiv_s"<?php if(!$d['social']['use_s']):?> class="hide"<?php endif?>>
-		<table>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_s0.gif" alt="" /> Consumer Key</td>
-				<td class="td2">
-					<input type="text" name="key_s" value="<?php echo $d['social']['key_s']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_s0.gif" alt="" /> Consumer Secret</td>
-				<td class="td2">
-					<input type="text" name="secret_s" value="<?php echo $d['social']['secret_s']?>" size="40" class="input" />
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_s0.gif" alt="" /> Callback Url</td>
-				<td class="td2 b">
-					<?php echo $g['url_root'].'/?r='.$r.'&m='.$module.'&a=snscall_direct&live=Y'?>
-				</td>
-			</tr>
-			<tr>
-				<td class="td1"><img src="<?php echo $g['img_module']?>/sns_s0.gif" alt="" /> APP 등록페이지</td>
-				<td class="td2 b">
-					<a href="https://manage.dev.live.com/AddApplication.aspx" target="_blank">https://manage.dev.live.com/AddApplication.aspx</a>
-				</td>
-			</tr>
-		</table>
-		</div>
+		
 
 		<div id="snsdiv_b"<?php if(!$d['social']['use_b']):?> class="hide"<?php endif?>>
 		<table>

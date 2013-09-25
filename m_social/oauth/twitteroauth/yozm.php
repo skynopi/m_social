@@ -9,7 +9,7 @@
 /* Load OAuth lib. You can find it at http://oauth.net */
 
 //require_once('OAuth.php');
-$xoauthfile = !defined('__KIMS__') ? 'OAuth.php' : $g['path_module'].'social/oauth/twitteroauth/OAuth.php';
+$xoauthfile = !defined('__KIMS__') ? 'OAuth.php' : $g['path_module'].'m_social/oauth/twitteroauth/OAuth.php';
 require_once($xoauthfile);
 
 
@@ -22,7 +22,7 @@ class YozmOAuth {
   /* Contains the last API call. */
   public $url;
   /* Set up the API root URL. */
-  public $host = "https://apis.daum.net/yozm/v1_0/";
+  public $host = "https://apis.daum.net/profile/show.json/";
   /* Set timeout default. */
   public $timeout = 30;
   /* Set connect timeout. */

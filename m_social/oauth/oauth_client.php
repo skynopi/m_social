@@ -2,7 +2,7 @@
 /*
  * oauth_client.php
  *
- * @(#) $Id: oauth_client.php,v 1.66 2013/07/06 11:35:56 mlemos Exp $
+ * @(#) $Id: oauth_client.php,v 1.72 2013/07/31 11:51:03 mlemos Exp $
  *
  */
 
@@ -12,7 +12,7 @@
 
 	<package>net.manuellemos.oauth</package>
 
-	<version>@(#) $Id: oauth_client.php,v 1.66 2013/07/06 11:35:56 mlemos Exp $</version>
+	<version>@(#) $Id: oauth_client.php,v 1.72 2013/07/31 11:51:03 mlemos Exp $</version>
 	<copyright>Copyright ?(C) Manuel Lemos 2012</copyright>
 	<title>OAuth client</title>
 	<author>Manuel Lemos</author>
@@ -55,7 +55,9 @@
 			need to have registered your application with the OAuth server. The
 			registration provides you values to set the variables
 			<variablelink>client_id</variablelink> and 
-			<variablelink>client_secret</variablelink>.<paragraphbreak />
+			<variablelink>client_secret</variablelink>. Some servers also
+			provide an additional value to set the
+			<variablelink>api_key</variablelink> variable.<paragraphbreak />
 			You also need to set the variables
 			<variablelink>redirect_uri</variablelink> and
 			<variablelink>scope</variablelink> before calling the
@@ -225,6 +227,7 @@ class oauth_client_class
 				Currently it supports the following servers:
 				<stringvalue>Bitbucket</stringvalue>,
 				<stringvalue>Box</stringvalue>,
+				<stringvalue>Disqus</stringvalue>,
 				<stringvalue>Dropbox</stringvalue>,
 				<stringvalue>Eventful</stringvalue>,
 				<stringvalue>Facebook</stringvalue>,
@@ -236,8 +239,10 @@ class oauth_client_class
 				<stringvalue>Instagram</stringvalue>,
 				<stringvalue>LinkedIn</stringvalue>,
 				<stringvalue>Microsoft</stringvalue>,
+				<stringvalue>Salesforce</stringvalue>,
 				<stringvalue>Scoop.it</stringvalue>,
 				<stringvalue>StockTwits</stringvalue>,
+				<stringvalue>SurveyMonkey</stringvalue>,
 				<stringvalue>Tumblr</stringvalue>,
 				<stringvalue>Twitter</stringvalue>,
 				<stringvalue>XING</stringvalue> and
@@ -299,7 +304,8 @@ class oauth_client_class
 				server<paragraphbreak />
 				{SCOPE} - scope of the requested permissions to the granted by the
 				OAuth server with the user permissions<paragraphbreak />
-				{STATE} - identifier of the OAuth session state</usage>
+				{STATE} - identifier of the OAuth session state<paragraphbreak />
+				{API_KEY} - API key to access the server</usage>
 		</documentation>
 	</variable>
 {/metadocument}
@@ -505,6 +511,41 @@ class oauth_client_class
 {/metadocument}
 */
 	var $client_secret = '';
+
+/*
+{metadocument}
+	<variable>
+		<name>api_key</name>
+		<type>STRING</type>
+		<value></value>
+		<documentation>
+			<purpose>Identifier of your API key provided by the OAuth
+				server</purpose>
+			<usage>Set this variable to the API key if the OAuth server requires
+				one.</usage>
+		</documentation>
+	</variable>
+{/metadocument}
+*/
+	var $api_key = '';
+
+/*
+{metadocument}
+	<variable>
+		<name>get_token_with_api_key</name>
+		<type>BOOLEAN</type>
+		<value>0</value>
+		<documentation>
+			<purpose>Option to determine if the access token should be retrieved
+				using the API key value instead of the client secret.</purpose>
+			<usage>Set this variable to <booleanvalue>1</booleanvalue> if the
+				OAuth server requires that the client secret be set to the API key
+				when retrieving the OAuth token.</usage>
+		</documentation>
+	</variable>
+{/metadocument}
+*/
+	var $get_token_with_api_key = false;
 
 /*
 {metadocument}
@@ -733,7 +774,7 @@ class oauth_client_class
 */
 	var $response_status = 0;
 
-	var $oauth_user_agent = 'PHP-OAuth-API (http://www.phpclasses.org/oauth-api $Revision: 1.66 $)';
+	var $oauth_user_agent = 'PHP-OAuth-API (http://www.phpclasses.org/oauth-api $Revision: 1.72 $)';
 	var $session_started = false;
 
 	Function SetError($error)
@@ -778,14 +819,15 @@ class oauth_client_class
 			'{REDIRECT_URI}', UrlEncode($redirect_uri), str_replace(
 			'{STATE}', UrlEncode($state), str_replace(
 			'{CLIENT_ID}', UrlEncode($this->client_id), str_replace(
+			'{API_KEY}', UrlEncode($this->api_key), str_replace(
 			'{SCOPE}', UrlEncode($this->scope),
-			$url))));
+			$url)))));
 		return(true);
 	}
 
 	Function GetAccessTokenURL(&$access_token_url)
 	{
-		$access_token_url = $this->access_token_url;
+		$access_token_url = str_replace('{API_KEY}', $this->api_key, $this->access_token_url);
 		return(true);
 	}
 
@@ -847,6 +889,41 @@ class oauth_client_class
 /*
 {metadocument}
 	<function>
+		<name>Redirect</name>
+		<type>VOID</type>
+		<documentation>
+			<purpose>Redirect the user browser to a given page.</purpose>
+			<usage>This function is meant to be only be called from inside the
+				class. By default it issues HTTP 302 response status and sets the
+				redirection location to a given URL. Sub-classes may override this
+				function to implement a different way to redirect the user
+				browser.</usage>
+		</documentation>
+		<argument>
+			<name>url</name>
+			<type>STRING</type>
+			<documentation>
+				<purpose>String with the full URL of the page to redirect.</purpose>
+			</documentation>
+		</argument>
+		<do>
+{/metadocument}
+*/
+	Function Redirect($url)
+	{
+		Header('HTTP/1.0 302 OAuth Redirection');
+		Header('Location: '.$url);
+	}
+/*
+{metadocument}
+		</do>
+	</function>
+{/metadocument}
+*/
+
+/*
+{metadocument}
+	<function>
 		<name>StoreAccessToken</name>
 		<type>BOOLEAN</type>
 		<documentation>
@@ -895,7 +972,9 @@ class oauth_client_class
 			if(!function_exists('session_start'))
 				return $this->SetError('Session variables are not accessible in this PHP environment');
 		}
-		$_SESSION['OAUTH_ACCESS_TOKEN'][$this->access_token_url] = $access_token;
+		if(!$this->GetAccessTokenURL($access_token_url))
+			return false;
+		$_SESSION['OAUTH_ACCESS_TOKEN'][$access_token_url] = $access_token;
 		return true;
 	}
 /*
@@ -950,8 +1029,10 @@ class oauth_client_class
 				return($this->SetPHPError('it was not possible to start the PHP session', $php_error_message));
 			$this->session_started = true;
 		}
-		if(IsSet($_SESSION['OAUTH_ACCESS_TOKEN'][$this->access_token_url]))
-			$access_token = $_SESSION['OAUTH_ACCESS_TOKEN'][$this->access_token_url];
+		if(!$this->GetAccessTokenURL($access_token_url))
+			return false;
+		if(IsSet($_SESSION['OAUTH_ACCESS_TOKEN'][$access_token_url]))
+			$access_token = $_SESSION['OAUTH_ACCESS_TOKEN'][$access_token_url];
 		else
 			$access_token = array();
 		return true;
@@ -993,8 +1074,10 @@ class oauth_client_class
 */
 	Function ResetAccessToken()
 	{
+		if(!$this->GetAccessTokenURL($access_token_url))
+			return false;
 		if($this->debug)
-			$this->OutputDebug('Resetting the access token status for OAuth server located at '.$this->access_token_url);
+			$this->OutputDebug('Resetting the access token status for OAuth server located at '.$access_token_url);
 		if(!$this->session_started)
 		{
 			if(!function_exists('session_start'))
@@ -1003,8 +1086,8 @@ class oauth_client_class
 				return($this->SetPHPError('it was not possible to start the PHP session', $php_error_message));
 		}
 		$this->session_started = true;
-		if(IsSet($_SESSION['OAUTH_ACCESS_TOKEN'][$this->access_token_url]))
-			Unset($_SESSION['OAUTH_ACCESS_TOKEN'][$this->access_token_url]);
+		if(IsSet($_SESSION['OAUTH_ACCESS_TOKEN'][$access_token_url]))
+			Unset($_SESSION['OAUTH_ACCESS_TOKEN'][$access_token_url]);
 		return true;
 	}
 /*
@@ -1292,7 +1375,7 @@ class oauth_client_class
 		{
 			$values = array(
 				'client_id'=>$this->client_id,
-				'client_secret'=>$this->client_secret,
+				'client_secret'=>($this->get_token_with_api_key ? $this->api_key : $this->client_secret),
 				'refresh_token'=>$this->refresh_token,
 				'grant_type'=>'refresh_token'
 			);
@@ -1304,14 +1387,14 @@ class oauth_client_class
 			$values = array(
 				'code'=>$code,
 				'client_id'=>$this->client_id,
-				'client_secret'=>$this->client_secret,
+				'client_secret'=>($this->get_token_with_api_key ? $this->api_key : $this->client_secret),
 				'redirect_uri'=>$redirect_uri,
 				'grant_type'=>'authorization_code'
 			);
 		}
-		if(!$this->GetAccessTokenURL($url))
+		if(!$this->GetAccessTokenURL($access_token_url))
 			return false;
-		if(!$this->SendAPIRequest($url, 'POST', $values, null, array('Resource'=>'OAuth '.($refresh ? 'refresh' : 'access').' token', 'ConvertObjects'=>true), $response))
+		if(!$this->SendAPIRequest($access_token_url, 'POST', $values, null, array('Resource'=>'OAuth '.($refresh ? 'refresh' : 'access').' token', 'ConvertObjects'=>true), $response))
 			return false;
 		if(strlen($this->access_token_error))
 		{
@@ -1668,7 +1751,7 @@ class oauth_client_class
 				$this->request_token_url = 'https://bitbucket.org/!api/1.0/oauth/request_token';
 				$this->dialog_url = 'https://bitbucket.org/!api/1.0/oauth/authenticate';
 				$this->access_token_url = 'https://bitbucket.org/!api/1.0/oauth/access_token';
-				$this->url_parameters = true;
+				$this->url_parameters = false;
 				break;
 
 			case 'Box':
@@ -1676,6 +1759,12 @@ class oauth_client_class
 				$this->dialog_url = 'https://www.box.com/api/oauth2/authorize?response_type=code&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&state={STATE}';
 				$this->offline_dialog_url = 'https://www.box.com/api/oauth2/authorize?response_type=code&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&state={STATE}&access_type=offline&approval_prompt=force';
 				$this->access_token_url = 'https://www.box.com/api/oauth2/token';
+				break;
+
+			case 'Disqus':
+				$this->oauth_version = '2.0';
+				$this->dialog_url = 'https://disqus.com/api/oauth/2.0/authorize/?response_type=code&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={SCOPE}&state={STATE}';
+				$this->access_token_url = 'https://disqus.com/api/oauth/2.0/access_token/';
 				break;
 
 			case 'Dropbox':
@@ -1795,6 +1884,13 @@ class oauth_client_class
 				$this->access_token_url = 'https://api.stocktwits.com/api/2/oauth/token';
 				break;
 
+			case 'SurveyMonkey':
+				$this->oauth_version = '2.0';
+				$this->dialog_url = 'https://api.surveymonkey.net/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code&state={STATE}&api_key={API_KEY}';
+				$this->access_token_url = 'https://api.surveymonkey.net/oauth/token?api_key={API_KEY}';
+				$this->get_token_with_api_key = true;
+				break;
+
 			case 'Tumblr':
 				$this->oauth_version = '1.0a';
 				$this->request_token_url = 'http://www.tumblr.com/oauth/request_token';
@@ -1823,6 +1919,14 @@ class oauth_client_class
 				$this->request_token_url = 'https://api.login.yahoo.com/oauth/v2/get_request_token';
 				$this->dialog_url = 'https://api.login.yahoo.com/oauth/v2/request_auth';
 				$this->access_token_url = 'https://api.login.yahoo.com/oauth/v2/get_token';
+				$this->authorization_header = false;
+				break;
+
+			case 'yozm':
+				$this->oauth_version = '1.0a';
+				$this->request_token_url = 'https://apis.daum.net/oauth/requestToken';
+				$this->dialog_url = 'https://apis.daum.net/oauth/authorize';
+				$this->access_token_url = 'https://apis.daum.net/oauth/accessToken';
 				$this->authorization_header = false;
 				break;
 
@@ -2053,14 +2157,17 @@ class oauth_client_class
 				}
 				if($this->debug)
 					$this->OutputDebug('Redirecting to OAuth authorize page '.$url);
-				Header('HTTP/1.0 302 OAuth Redirection');
-				Header('Location: '.$url);
+				$this->Redirect($url);
 				$this->exit = true;
 				return true;
 
 			case 2:
 				if($this->debug)
-					$this->OutputDebug('Checking if OAuth access token was already retrieved from '.$this->access_token_url);
+				{
+					if(!$this->GetAccessTokenURL($access_token_url))
+						return false;
+					$this->OutputDebug('Checking if OAuth access token was already retrieved from '.$access_token_url);
+				}
 				if(!$this->RetrieveToken($valid))
 					return false;
 				if($valid)
@@ -2119,8 +2226,7 @@ class oauth_client_class
 						return($this->SetError('it was not set the OAuth dialog URL'));
 					if($this->debug)
 						$this->OutputDebug('Redirecting to OAuth Dialog '.$url);
-					Header('HTTP/1.0 302 OAuth Redirection');
-					Header('Location: '.$url);
+					$this->Redirect($url);
 					$this->exit = true;
 				}
 				break;
