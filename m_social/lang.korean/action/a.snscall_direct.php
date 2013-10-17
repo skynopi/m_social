@@ -393,6 +393,7 @@ if ($d['social']['use_y'])
 		require_once($g['dir_module'].'oauth/oauth_client.php');
 
 		$client = new oauth_client_class;
+		$client->offline = false;
 		$client->debug = true;
 		$client->debug_http = false;
 		$client->server = 'yozm';
@@ -409,10 +410,10 @@ if ($d['social']['use_y'])
 			if(($success = $client->Process()))
 			{
 				if(strlen($client->access_token))
-				{   
+				{  
 					$success = $client->CallAPI(
-						'https://apis.daum.net/profile/show.json', 
-						'GET', array('format'=>'json'), array('FailOnAccessError'=>true), $user);
+						'https://apis.daum.net/blog/info/blog.do', 
+						'GET', array('output'=>'json'), array('FailOnAccessError'=>true), $user);
 				}
 			}
 			$success = $client->Finalize($success);
@@ -423,7 +424,7 @@ if ($d['social']['use_y'])
 		{
 			$user2 = json_decode($user);
 			$_rs1 = '';
-			$_rs2 = 'on,http://www.daum.net/,'.$client->access_token.','.$client->access_token_secret.','.$user2->user->id.',';
+			$_rs2 = 'on,http://blog.daum.net/,'.$client->access_token.','.$client->access_token_secret.','.$user2->channel->name.',';
 			$_set = array('t','f','m','y','r','g','instagram','tumblr','linkedin','ms','yahoo','xing','surveymonkey','stocktwits','rightsignature','fitbit','eventful','dropbox','disqus','box','bitbucket','github');
 			$_cnt = count($_set);
 			for($i = 0; $i < $_cnt; $i++)
@@ -432,7 +433,7 @@ if ($d['social']['use_y'])
 			}
 			if ($my['uid'])
 			{
-				$_ISSNS = getDbData($table[$m.'mbrsns'],"sy='".$user2->user->id."'",'*');
+				$_ISSNS = getDbData($table[$m.'mbrsns'],"sy='".$user2->channel->name."'",'*');
 				if ($_ISSNS['memberuid']&&$_ISSNS['memberuid']!=$my['uid'])
 				{
 					$_SESSION['plussns'] = $_ISSNS['memberuid'];
@@ -443,15 +444,15 @@ if ($d['social']['use_y'])
 				{
 					if(getDbRows($table[$m.'mbrsns'],'memberuid='.$my['uid']))
 					{
-						getDbUpdate($table[$m.'mbrsns'],"sy='".$user2->user->id."'",'memberuid='.$my['uid']);
+						getDbUpdate($table[$m.'mbrsns'],"sy='".$user2->channel->name."'",'memberuid='.$my['uid']);
 					}
 					else {
-						getDbInsert($table[$m.'mbrsns'],'memberuid,sy',"'".$my['uid']."','".$user2->user->id."'");
+						getDbInsert($table[$m.'mbrsns'],'memberuid,sy',"'".$my['uid']."','".$user2->channel->name."'");
 					}
 				}
 			}
 			else {
-				$_ISSNS = getDbData($table[$m.'mbrsns'],"sy='".$user2->user->id."'",'*');
+				$_ISSNS = getDbData($table[$m.'mbrsns'],"sy='".$user2->channel->name."'",'*');
 				if($_ISSNS['memberuid'])
 				{
 					$M	= getUidData($table['s_mbrid'],$_ISSNS['memberuid']);
@@ -468,7 +469,7 @@ if ($d['social']['use_y'])
 					getDbInsert($table['s_mbrid'],'site,id,pw',"'$s','$id',''");
 					$memberuid  = getDbCnt($table['s_mbrid'],'max(uid)','');
 
-					$picdata = getUrlData($user2->user->profile_image_url,10);
+					$picdata = getUrlData($user2->channel->profileImageUrl,10);
 					if ($picdata)
 					{
 						$pic = $g['path_var'].'simbol/'.$id.'.jpg';
@@ -479,7 +480,7 @@ if ($d['social']['use_y'])
 						@chmod($pic);
 						$photo = $id.'.jpg';
 					}
-					$picdata = getUrlData($user2->user->profile_big_image_url,10);
+					$picdata = getUrlData($user2->channel->profileImageUrl,10);
 					if ($picdata)
 					{
 						$pic = $g['path_var'].'simbol/180.'.$id.'.jpg';
@@ -494,26 +495,25 @@ if ($d['social']['use_y'])
 					$_QKEY.= "email,name,nic,grade,photo,home,sex,birth1,birth2,birthtype,tel1,tel2,zip,";
 					$_QKEY.= "addr0,addr1,addr2,job,marr1,marr2,sms,mailing,smail,point,usepoint,money,cash,num_login,pw_q,pw_a,now_log,last_log,last_pw,is_paper,d_regis,tmpcode,sns,addfield";
 					$_QVAL = "'$memberuid','$s','1','".$d['member']['join_group']."','".$d['member']['join_level']."','0','0','',";
-					$_QVAL.= "'','".$user2->user->nickname."','".$user2->user->nickname."','','$photo','','1','','','0','','','',";
+					$_QVAL.= "'','".$user2->channel->name."','".$user2->channel->name."','','$photo','','1','','','0','','','',";
 					$_QVAL.= "'','','','','0','0','0','1','0','".$d['member']['join_point']."','0','0','0','1','','','1','".$date['totime']."','".$date['totime']."','0','".$date['totime']."','','$_rs1',''";
 					getDbInsert($table['s_mbrdata'],$_QKEY,$_QVAL);
 					getDbUpdate($table['s_mbrlevel'],'num=num+1','uid='.$d['member']['join_level']);
 					getDbUpdate($table['s_mbrgroup'],'num=num+1','uid='.$d['member']['join_group']);
 					getDbUpdate($table['s_numinfo'],'login=login+1,mbrjoin=mbrjoin+1',"date='".$date['today']."' and site=".$s);
 					if($d['member']['join_point']) getDbInsert($table['s_point'],'my_mbruid,by_mbruid,price,content,d_regis',"'$memberuid','0','".$d['member']['join_point']."','".$d['member']['join_pointmsg']."','".$date['totime']."'");
-					getDbInsert($table[$m.'mbrsns'],'memberuid,sy',"'".$memberuid."','".$user2->user->id."'");
+					getDbInsert($table[$m.'mbrsns'],'memberuid,sy',"'".$memberuid."','".$user2->channel->name."'");
 
 					$_SESSION['mbr_uid'] = $memberuid;
 					$_SESSION['mbr_pw']  = '';
 				}
 			}
 
-			getLink('reload','opener.','요즘과 연결되었습니다.','close');
+			getLink('reload','opener.','다음과 연결되었습니다.','close');
 		}
 		else {
 			$client->ResetAccessToken();
-			 // echo HtmlSpecialChars($client->error); 
-			 getLink('','',HtmlSpecialChars($client->error),'close');   //exit;
+			 getLink('','',HtmlSpecialChars($client->error),'close'); 
 		}
 	}
 }

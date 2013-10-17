@@ -278,8 +278,8 @@
 			if(($success_y = $client_y->Initialize()))
 			{
 				$success_y = $client_y->CallAPI(
-					'https://apis.daum.net/profile/show.json', 
-					'GET', array('format'=>'json'), array('FailOnAccessError'=>true), $user_y);
+					'https://apis.daum.net/blog/info/blog.do', 
+					'GET', array('output'=>'json'), array('FailOnAccessError'=>true), $user_y);
 				
 				$success_y = $client_y->Finalize($success_y);
 			}
@@ -291,27 +291,27 @@
 
 				<table class="configtbl tline">				
 				<tr>
-				<td class="td1">프로필 이미지</td>
+				<td class="td1">블로그 이미지</td>
 				<td class="td2">
-					<img src="<?php echo $user_y2->user->profile_image_url?>" width="50" height="50" alt="" />
-					<input type="hidden" name="photo" value="<?php echo $user_y2->user->profile_image_url?>" />
-					<input type="hidden" name="photo_big" value="<?php echo $user_y2->user->profile_big_image_url?>" />
+					<img src="<?php echo $user_y2->channel->profileImageUrl?>" width="50" height="50" alt="" />
+					<input type="hidden" name="photo" value="<?php echo $user_y2->channel->profileImageUrl?>" />
+					<input type="hidden" name="photo_big" value="<?php echo $user_y2->channel->profileImageUrl?>" />
 					<div>동기화 실행시 작은 이미지,큰 이미지 모두 갱신됩니다.</div>
 				</td>
 				<td class="td3"></td>
 				</tr>
 				
 				<tr>
-				<td class="td1">이름</td>
+				<td class="td1">블로그명</td>
 				<td class="td2">
-					<input type="text" name="name" value="<?php echo $user_y2->user->nickname?>" />
+					<input type="text" name="name" value="<?php echo $user_y2->channel->name?>" />
 				</td>
 				<td class="td3"></td>
 				</tr>
 				</table>
 				
 			<?php else:?>
-				<div class="none">다음 프로필 연결정보가 없습니다.</div>
+				<div class="none">다음 블로그 연결정보가 없습니다.</div>
 			<?php endif?>
 		<?php endif?>
 	<?php endif?>

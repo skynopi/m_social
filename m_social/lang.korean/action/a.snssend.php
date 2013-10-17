@@ -175,6 +175,50 @@ if ($sns_m)
 	}
 }
 
+if ($sns_y)
+{
+	$_mysnsdat=explode(',',$g['mysns'][3]);
+	$daum_content = $utubedata ? $content.' youtu.be/'.$utubedata : $content;
+	$orignUrl_href = '<a href="'.$orignUrl.'" _target="_blank">'.$orignUrl.'</a>';
+
+	require_once($g['path_module'].'m_social/oauth/http.php');
+	require_once($g['path_module'].'m_social/oauth/oauth_client.php');
+		
+	$client_y = new oauth_client_class;
+	$client_y->offline = true;
+	$client_y->debug = false;
+	$client_y->debug_http = true;
+	$client_y->server = 'yozm';
+
+		
+	$client_y->client_id = $d['social']['key_y'];
+	$client_y->client_secret = $d['social']['secret_y'];
+
+	$client_y->access_token = $_mysnsdat[2];
+	$client_y->access_token_secret = $_mysnsdat[3];
+		
+	if(($success_y = $client_y->Initialize()))
+	{					
+		$success_y = $client_y->CallAPI(
+			'https://apis.daum.net/blog/post/write.do', 
+			'GET', array('blogName'=>$_mysnsdat[4], 'title'=>$subject, 'content'=>$daum_content.' [원문:'.$orignUrl_href.']', 'tag'=>$tag, 'output'=>'json'), array('FailOnAccessError'=>true), $update_y);
+		
+		$success_y = $client_y->Finalize($success_y);
+
+		if($client_y->exit) exit;
+	}
+
+	
+	if($success_y)
+	{
+		$update_y2  = json_decode($update_y);
+		$QVAL = "'$snsgid','y','".$update_y2->channel->blogName."','$subject','$name','$nic','$my[uid]','$my[id]','".$update_y2->channel->url."','$xcync','$date[totime]'";
+		getDbInsert($table['m_socialdata'],$QKEY,$QVAL);
+		$snsSendResult .= getDbCnt($table['m_socialdata'],'max(uid)','').',';
+		$snsgid--;
+	}
+}
+
 if ($sns_r)
 {
 	if($upload){	

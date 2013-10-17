@@ -101,7 +101,7 @@ if(is_file($is_file)){
 					<img src="<?php echo $g['path_module'].$module?>/image/sns_m0.gif" alt="" /> <label for="chk_m">미투데이</label>
 
 					<input type="checkbox" name="use_y" id="chk_y" value="1"<?php if($d['social']['use_y']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />
-					<img src="<?php echo $g['path_module'].$module?>/image/sns_y0.gif" alt="" /> <label for="chk_y">요즘</label>
+					<img src="<?php echo $g['path_module'].$module?>/image/sns_y0.gif" alt="" /> <label for="chk_y">다음</label>
 
 
 					<input type="checkbox" name="use_r" id="chk_r" value="1"<?php if($d['social']['use_r']):?> checked="checked"<?php endif?> onclick="chkSNScheck(this);" />

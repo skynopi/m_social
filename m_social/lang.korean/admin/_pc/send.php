@@ -26,7 +26,7 @@ $snsUrlset = array
 	't' => 'http://twitter.com/',
 	'f' => 'http://facebook.com/profile.php?id=',
 	'm' => 'http://me2day.net/',
-	'y' => 'http://yozm.daum.net/',
+	'y' => 'http://blog.daum.net/',
 	'r' => 'http://flickr.com/',
 	'g' => 'plus.google.com/',
 );
@@ -80,7 +80,7 @@ $snsUrlset = array
 		<option value="t"<?php if($provider=='t'):?> selected="selected"<?php endif?>>ㆍ트위터</option>
 		<option value="f"<?php if($provider=='f'):?> selected="selected"<?php endif?>>ㆍ페이스북</option>
 		<option value="m"<?php if($provider=='m'):?> selected="selected"<?php endif?>>ㆍ미투데이</option>
-		<option value="y"<?php if($provider=='y'):?> selected="selected"<?php endif?>>ㆍ요즘</option>
+		<option value="y"<?php if($provider=='y'):?> selected="selected"<?php endif?>>ㆍ다음</option>
 		<option value="r"<?php if($provider=='r'):?> selected="selected"<?php endif?>>ㆍ플리커</option>
 		<option value="g"<?php if($provider=='g'):?> selected="selected"<?php endif?>>ㆍ구글</option>
 		</select>

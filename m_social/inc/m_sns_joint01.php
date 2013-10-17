@@ -33,6 +33,10 @@ $_snsuse6=explode(',',$g['mysns'][5]);
 <img id="snsImg_m" src="<?php echo $g['path_module']?>/m_social/image/sns_m0.gif" alt="me2day" title="미투데이" />
 <?php endif?>
 
+<?php if($d['social']['use_y']):?>
+<input type="checkbox" name="sns_y" id="snsInp_y" value="1"<?php if($_snsuse4[0]=='on'):?> checked="checked"<?php endif?> onclick="snsCheck1(this,'<?php echo $_snsuse4[0]?>',3);" />
+<img id="snsImg_y" src="<?php echo $g['path_module']?>/m_social/image/sns_y0.gif" alt="daum blog" title="다음블로그" />
+<?php endif?>
 
 <?php if($d['social']['use_r']):?>
 <input type="checkbox" name="sns_r" id="snsInp_r" value="1"<?php if($_snsuse5[0]=='on'):?> checked="checked"<?php endif?> onclick="snsCheck1(this,'<?php echo $_snsuse5[0]?>',4);" />
