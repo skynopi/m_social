@@ -178,8 +178,12 @@ if ($sns_m)
 if ($sns_y)
 {
 	$_mysnsdat=explode(',',$g['mysns'][3]);
-	$daum_content = $utubedata ? $content.' youtu.be/'.$utubedata : $content;
-	$orignUrl_href = '<a href="'.$orignUrl.'" _target="_blank">'.$orignUrl.'</a>';
+	$daum_content = strip_tags($content,'<br>');
+	$arr_tag = array('"',"'","&nbsp;");
+	$daum_content = str_replace($arr_tag,"",$daum_content);
+	$daum_content = str_replace('&lt;','<',$daum_content);
+	$daum_content = str_replace('&gt;','>',$daum_content);
+	$daum_content =  getStrCut($daum_content,300,'..') .'<br /><br />원문 : <a href="'.$orignUrl.'" target="_blank" >'.$orignUrl.'</a>';
 
 	require_once($g['path_module'].'m_social/oauth/http.php');
 	require_once($g['path_module'].'m_social/oauth/oauth_client.php');
@@ -201,7 +205,7 @@ if ($sns_y)
 	{					
 		$success_y = $client_y->CallAPI(
 			'https://apis.daum.net/blog/post/write.do', 
-			'GET', array('blogName'=>$_mysnsdat[4], 'title'=>$subject, 'content'=>$daum_content.' [원문:'.$orignUrl_href.']', 'tag'=>$tag, 'output'=>'json'), array('FailOnAccessError'=>true), $update_y);
+			'POST', array('blogName'=>$_mysnsdat[4], 'title'=>$subject, 'content'=>$daum_content, 'tag'=>$tag, 'output'=>'json'), array('FailOnAccessError'=>true), $update_y);
 		
 		$success_y = $client_y->Finalize($success_y);
 
