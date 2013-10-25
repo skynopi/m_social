@@ -12,7 +12,7 @@
 
 	<package>net.manuellemos.oauth</package>
 
-	<version>@(#) $Id: oauth_client.php,v 1.72 2013/07/31 11:51:03 mlemos Exp $</version>
+	<version>@(#) $Id: oauth_client.php,v 1.74 2013/10/17 04:45:34 mlemos Exp $</version>
 	<copyright>Copyright ?(C) Manuel Lemos 2012</copyright>
 	<title>OAuth client</title>
 	<author>Manuel Lemos</author>
@@ -672,6 +672,26 @@ class oauth_client_class
 /*
 {metadocument}
 	<variable>
+		<name>access_token_parameter</name>
+		<type>STRING</type>
+		<value></value>
+		<documentation>
+			<purpose>Name of the access token parameter to be passed in API call
+				requests.</purpose>
+			<usage>Set this variable to a non-empty string to override the
+				default name for the access token parameter which is
+				<stringvalue>oauth_token</stringvalue> of OAuth 1 and
+				<stringvalue>access_token</stringvalue> for OAuth 2.</usage>
+		</documentation>
+	</variable>
+{/metadocument}
+*/
+	var $access_token_parameter = '';
+
+
+/*
+{metadocument}
+	<variable>
 		<name>access_token_response</name>
 		<type>ARRAY</type>
 		<documentation>
@@ -774,7 +794,7 @@ class oauth_client_class
 */
 	var $response_status = 0;
 
-	var $oauth_user_agent = 'PHP-OAuth-API (http://www.phpclasses.org/oauth-api $Revision: 1.72 $)';
+	var $oauth_user_agent = 'PHP-OAuth-API (http://www.phpclasses.org/oauth-api $Revision: 1.74 $)';
 	var $session_started = false;
 
 	Function SetError($error)
@@ -1679,7 +1699,7 @@ class oauth_client_class
 		{
 			case 1:
 				$oauth = array(
-					'oauth_token'=>((IsSet($options['2Legged']) && $options['2Legged']) ? '' : $this->access_token)
+					(strlen($this->access_token_parameter) ? $this->access_token_parameter : 'oauth_token')=>((IsSet($options['2Legged']) && $options['2Legged']) ? '' : $this->access_token)
 				);
 				break;
 
@@ -1699,7 +1719,7 @@ class oauth_client_class
 				}
 				$oauth = null;
 				if(strcasecmp($this->access_token_type, 'Bearer'))
-					$url .= (strcspn($url, '?') < strlen($url) ? '&' : '?').'access_token='.UrlEncode($this->access_token);
+					$url .= (strcspn($url, '?') < strlen($url) ? '&' : '?').(strlen($this->access_token_parameter) ? $this->access_token_parameter : 'access_token').'='.UrlEncode($this->access_token);
 				break;
 
 			default:
@@ -1819,6 +1839,7 @@ class oauth_client_class
 				$this->oauth_version = '2.0';
 				$this->dialog_url = 'https://foursquare.com/oauth2/authorize?client_id={CLIENT_ID}&scope={SCOPE}&response_type=code&redirect_uri={REDIRECT_URI}&state={STATE}';
 				$this->access_token_url = 'https://foursquare.com/oauth2/access_token';
+				$this->access_token_parameter = 'oauth_token';
 				break;
 
 			case 'github':
@@ -1888,7 +1909,6 @@ class oauth_client_class
 				$this->oauth_version = '2.0';
 				$this->dialog_url = 'https://api.surveymonkey.net/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code&state={STATE}&api_key={API_KEY}';
 				$this->access_token_url = 'https://api.surveymonkey.net/oauth/token?api_key={API_KEY}';
-				$this->get_token_with_api_key = true;
 				break;
 
 			case 'Tumblr':
@@ -1927,7 +1947,8 @@ class oauth_client_class
 				$this->request_token_url = 'https://apis.daum.net/oauth/requestToken';
 				$this->dialog_url = 'https://apis.daum.net/oauth/authorize';
 				$this->access_token_url = 'https://apis.daum.net/oauth/accessToken';
-				$this->authorization_header = false;
+				//$this->authorization_header = false;
+				$this->url_parameters = true;
 				break;
 
 			default:
