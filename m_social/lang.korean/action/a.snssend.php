@@ -26,15 +26,6 @@ if($d['social']['use_b'])
 	$orignUrl_se = $orignUrl;
 	$ourldata = getUrlData("http://api.bit.ly/v3/shorten?login=".$d['social']['key_b']."&apikey=".$d['social']['secret_b']."&longUrl=".urlencode($orignUrl),10);
 	$orignUrl = getJSONData(stripslashes($ourldata),'url');
-
-	if(!$orignUrl){
-		$ourldata = "http://to.ly/api.php?longurl=".urlencode($orignUrl_se);
-		$orignUrl = get_shortURL($ourldata);
-	}
-	if(!$orignUrl) {
-		$ourldata = "http://is.gd/api.php?longurl=".urlencode($orignUrl_se);
-		$orignUrl = get_shortURL($ourldata);
-	}
 }
 
 $mingid = getDbCnt($table['m_socialdata'],'min(gid)','');
